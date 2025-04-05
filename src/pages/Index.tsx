@@ -1,5 +1,5 @@
 
-import { ItemWarehouseForm } from "@/components/ItemWarehouseForm";
+import ItemWarehouseForm from "@/components/ItemWarehouseForm";
 
 const Index = () => {
   return (

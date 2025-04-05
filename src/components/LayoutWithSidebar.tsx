@@ -13,7 +13,7 @@ import {
   SidebarMenuItem,
   SidebarProvider,
 } from "@/components/ui/sidebar";
-import { Home, Package } from "lucide-react";
+import { Home, Package, BoxesIcon, Archive } from "lucide-react";
 
 interface LayoutWithSidebarProps {
   children: React.ReactNode;
@@ -32,6 +32,11 @@ export const LayoutWithSidebar = ({ children }: LayoutWithSidebarProps) => {
       title: "Almacén",
       path: "/edit-warehouse",
       icon: Package,
+    },
+    {
+      title: "Artículos",
+      path: "/articles",
+      icon: Archive,
     },
   ];
 

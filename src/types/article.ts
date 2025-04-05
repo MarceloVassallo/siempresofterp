@@ -25,7 +25,9 @@ export const mockArticles: Article[] = [
     storage: "Almacén Principal",
     status: "Activo",
     brand: "FIXALL",
-    supplier: "Ferretería Industrial S.A."
+    supplier: "Ferretería Industrial S.A.",
+    categoryAccount: "mercaderia",
+    hasStock: true
   },
   {
     id: "2",
@@ -36,7 +38,9 @@ export const mockArticles: Article[] = [
     storage: "Almacén Principal",
     status: "Activo",
     brand: "FIXALL",
-    supplier: "Ferretería Industrial S.A."
+    supplier: "Ferretería Industrial S.A.",
+    categoryAccount: "mercaderia",
+    hasStock: true
   },
   {
     id: "3",
@@ -47,7 +51,9 @@ export const mockArticles: Article[] = [
     storage: "Almacén Secundario",
     status: "Activo",
     brand: "FIXALL",
-    supplier: "Ferretería Industrial S.A."
+    supplier: "Ferretería Industrial S.A.",
+    categoryAccount: "mercaderia",
+    hasStock: false
   },
   {
     id: "4",
@@ -58,7 +64,9 @@ export const mockArticles: Article[] = [
     storage: "Almacén Principal",
     status: "Activo",
     brand: "ANCLAFLEX",
-    supplier: "Importadora Técnica S.A."
+    supplier: "Importadora Técnica S.A.",
+    categoryAccount: "suministros",
+    hasStock: true
   },
   {
     id: "5",
@@ -69,6 +77,8 @@ export const mockArticles: Article[] = [
     storage: "Almacén Secundario",
     status: "Inactivo",
     brand: "SELLOTAPE",
-    supplier: "Distribuidora Nacional S.A."
+    supplier: "Distribuidora Nacional S.A.",
+    categoryAccount: "mercaderia",
+    hasStock: false
   }
 ];

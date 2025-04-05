@@ -29,7 +29,7 @@ export const LayoutWithSidebar = ({ children }: LayoutWithSidebarProps) => {
       icon: Home,
     },
     {
-      title: "Editar Almacén",
+      title: "Almacén",
       path: "/edit-warehouse",
       icon: Package,
     },

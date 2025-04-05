@@ -76,12 +76,14 @@ interface EditWarehouseFormProps {
   initialWarehouse?: Warehouse;
   onSubmit?: (data: Warehouse) => void;
   onCancel?: () => void;
+  readOnly?: boolean;
 }
 
 export function EditWarehouseForm({
   initialWarehouse = defaultWarehouse,
   onSubmit,
-  onCancel
+  onCancel,
+  readOnly = false
 }: EditWarehouseFormProps) {
   const [warehouse] = useState<Warehouse>(initialWarehouse);
 
@@ -101,8 +103,6 @@ export function EditWarehouseForm({
 
   return (
     <div className="p-6 bg-white rounded-lg shadow">
-      <h2 className="text-2xl font-bold mb-6">Editar Almacén</h2>
-      
       <Form {...form}>
         <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -115,7 +115,7 @@ export function EditWarehouseForm({
                     <FormItem>
                       <FormLabel>Código</FormLabel>
                       <FormControl>
-                        <Input {...field} maxLength={3} />
+                        <Input {...field} maxLength={3} disabled={readOnly} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -131,6 +131,7 @@ export function EditWarehouseForm({
                         <Checkbox 
                           checked={field.value} 
                           onCheckedChange={field.onChange}
+                          disabled={readOnly}
                         />
                       </FormControl>
                       <FormLabel>Inactivo</FormLabel>
@@ -146,7 +147,7 @@ export function EditWarehouseForm({
                   <FormItem>
                     <FormLabel>Código Establecimiento</FormLabel>
                     <FormControl>
-                      <Input {...field} maxLength={4} />
+                      <Input {...field} maxLength={4} disabled={readOnly} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -160,7 +161,7 @@ export function EditWarehouseForm({
                   <FormItem>
                     <FormLabel>Nombre</FormLabel>
                     <FormControl>
-                      <Input {...field} maxLength={40} />
+                      <Input {...field} maxLength={40} disabled={readOnly} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -202,7 +203,7 @@ export function EditWarehouseForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Dirección</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={readOnly}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccionar dirección" />
@@ -230,7 +231,7 @@ export function EditWarehouseForm({
                   <FormItem>
                     <FormLabel>Otra Dirección</FormLabel>
                     <FormControl>
-                      <Input {...field} maxLength={80} />
+                      <Input {...field} maxLength={80} disabled={readOnly} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -243,7 +244,7 @@ export function EditWarehouseForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Sucursal</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={readOnly}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccionar sucursal" />
@@ -268,7 +269,7 @@ export function EditWarehouseForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Localidad</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={readOnly}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccionar localidad" />
@@ -293,7 +294,7 @@ export function EditWarehouseForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Tipo</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={readOnly}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccionar tipo" />
@@ -318,7 +319,7 @@ export function EditWarehouseForm({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Centro Costo</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select onValueChange={field.onChange} value={field.value} disabled={readOnly}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Seleccionar centro de costo" />
@@ -344,7 +345,7 @@ export function EditWarehouseForm({
                   <FormItem>
                     <FormLabel>Observaciones</FormLabel>
                     <FormControl>
-                      <Input {...field} maxLength={40} />
+                      <Input {...field} maxLength={40} disabled={readOnly} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -357,9 +358,11 @@ export function EditWarehouseForm({
             <Button variant="outline" type="button" onClick={onCancel}>
               Cancelar
             </Button>
-            <Button type="submit">
-              Aceptar
-            </Button>
+            {!readOnly && (
+              <Button type="submit">
+                Aceptar
+              </Button>
+            )}
           </div>
         </form>
       </Form>

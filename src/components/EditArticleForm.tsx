@@ -166,13 +166,14 @@ const EditArticleForm = ({ mode, article, onClose, onSave }: EditArticleFormProp
                   <Label htmlFor="storage">Almacenamiento</Label>
                   <Select 
                     disabled={isReadOnly}
-                    value={formData.storage || ""}
+                    value={formData.storage || "default_storage"}
                     onValueChange={(value) => handleChange("storage", value)}
                   >
                     <SelectTrigger id="storage">
                       <SelectValue placeholder="Seleccione almacenamiento" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="default_storage">Seleccione almacenamiento</SelectItem>
                       <SelectItem value="Almacén Principal">Almacén Principal</SelectItem>
                       <SelectItem value="Almacén Secundario">Almacén Secundario</SelectItem>
                     </SelectContent>
@@ -202,13 +203,14 @@ const EditArticleForm = ({ mode, article, onClose, onSave }: EditArticleFormProp
                   <Label htmlFor="brand">Marca</Label>
                   <Select 
                     disabled={isReadOnly}
-                    value={formData.brand || ""}
-                    onValueChange={(value) => handleChange("brand", value)}
+                    value={formData.brand || "default_brand"}
+                    onValueChange={(value) => handleChange("brand", value === "default_brand" ? "" : value)}
                   >
                     <SelectTrigger id="brand">
                       <SelectValue placeholder="Seleccione marca" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="default_brand">Seleccione marca</SelectItem>
                       <SelectItem value="FIXALL">FIXALL</SelectItem>
                       <SelectItem value="ANCLAFLEX">ANCLAFLEX</SelectItem>
                       <SelectItem value="SELLOTAPE">SELLOTAPE</SelectItem>
@@ -375,7 +377,7 @@ const EditArticleForm = ({ mode, article, onClose, onSave }: EditArticleFormProp
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="currency">Moneda</Label>
-                  <Select disabled={isReadOnly}>
+                  <Select disabled={isReadOnly} defaultValue="PEN">
                     <SelectTrigger id="currency">
                       <SelectValue placeholder="Seleccione moneda" />
                     </SelectTrigger>
@@ -389,14 +391,15 @@ const EditArticleForm = ({ mode, article, onClose, onSave }: EditArticleFormProp
                 <div className="space-y-2">
                   <Label htmlFor="categoryAccount">Categoría Contable</Label>
                   <Select 
-                    value={formData.categoryAccount || ""}
-                    onValueChange={(value) => handleChange("categoryAccount", value)}
+                    value={formData.categoryAccount || "default_category"}
+                    onValueChange={(value) => handleChange("categoryAccount", value === "default_category" ? "" : value)}
                     disabled={isReadOnly}
                   >
                     <SelectTrigger id="categoryAccount">
                       <SelectValue placeholder="Seleccione categoría" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="default_category">Seleccione categoría</SelectItem>
                       <SelectItem value="mercaderia">Mercadería</SelectItem>
                       <SelectItem value="suministros">Suministros</SelectItem>
                       <SelectItem value="activos">Activos</SelectItem>
@@ -427,11 +430,12 @@ const EditArticleForm = ({ mode, article, onClose, onSave }: EditArticleFormProp
               <div className="grid grid-cols-1 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="cat1">Categoría 1 (Reparto)</Label>
-                  <Select disabled={isReadOnly}>
+                  <Select disabled={isReadOnly} defaultValue="default">
                     <SelectTrigger id="cat1">
                       <SelectValue placeholder="Seleccione categoría" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="default">Seleccione categoría</SelectItem>
                       <SelectItem value="cat1-a">Categoría 1A</SelectItem>
                       <SelectItem value="cat1-b">Categoría 1B</SelectItem>
                     </SelectContent>
@@ -440,11 +444,12 @@ const EditArticleForm = ({ mode, article, onClose, onSave }: EditArticleFormProp
                 
                 <div className="space-y-2">
                   <Label htmlFor="cat2">Categoría 2</Label>
-                  <Select disabled={isReadOnly}>
+                  <Select disabled={isReadOnly} defaultValue="default">
                     <SelectTrigger id="cat2">
                       <SelectValue placeholder="Seleccione categoría" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="default">Seleccione categoría</SelectItem>
                       <SelectItem value="cat2-a">Categoría 2A</SelectItem>
                       <SelectItem value="cat2-b">Categoría 2B</SelectItem>
                     </SelectContent>
@@ -453,11 +458,12 @@ const EditArticleForm = ({ mode, article, onClose, onSave }: EditArticleFormProp
                 
                 <div className="space-y-2">
                   <Label htmlFor="priceGroup">Grupo Precios</Label>
-                  <Select disabled={isReadOnly}>
+                  <Select disabled={isReadOnly} defaultValue="default">
                     <SelectTrigger id="priceGroup">
                       <SelectValue placeholder="Seleccione grupo" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="default">Seleccione grupo</SelectItem>
                       <SelectItem value="price-a">Grupo A</SelectItem>
                       <SelectItem value="price-b">Grupo B</SelectItem>
                     </SelectContent>
@@ -466,11 +472,12 @@ const EditArticleForm = ({ mode, article, onClose, onSave }: EditArticleFormProp
                 
                 <div className="space-y-2">
                   <Label htmlFor="commissionGroup">Grupo Comisión</Label>
-                  <Select disabled={isReadOnly}>
+                  <Select disabled={isReadOnly} defaultValue="default">
                     <SelectTrigger id="commissionGroup">
                       <SelectValue placeholder="Seleccione grupo" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="default">Seleccione grupo</SelectItem>
                       <SelectItem value="comm-a">Comisión A</SelectItem>
                       <SelectItem value="comm-b">Comisión B</SelectItem>
                     </SelectContent>
@@ -511,12 +518,12 @@ const EditArticleForm = ({ mode, article, onClose, onSave }: EditArticleFormProp
                   disabled={isReadOnly}
                   className="flex-1"
                 />
-                <Select disabled={isReadOnly} defaultValue="">
+                <Select disabled={isReadOnly} defaultValue="default_um">
                   <SelectTrigger className="w-[180px]">
                     <SelectValue placeholder="UM" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Seleccionar UM</SelectItem>
+                    <SelectItem value="default_um">Seleccionar UM</SelectItem>
                     <SelectItem value="unidad">Unidad</SelectItem>
                     <SelectItem value="kg">Kilogramo</SelectItem>
                     <SelectItem value="lt">Litro</SelectItem>

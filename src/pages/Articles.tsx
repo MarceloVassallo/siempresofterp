@@ -155,28 +155,28 @@ const Articles = () => {
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Gestión de Artículos</h1>
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-lg font-semibold">Gestión de Artículos</h1>
       </div>
             
       {/* Panel de búsqueda */}
-      <Card className="mb-6">
-        <CardContent className="p-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="description">Descripción</Label>
-              <div className="flex items-center gap-2">
+      <Card className="mb-4">
+        <CardContent className="p-3">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+            <div className="space-y-1.5">
+              <Label htmlFor="description" className="text-xs">Descripción</Label>
+              <div className="flex items-center gap-1.5">
                 <Select
                   value="contains"
                   onValueChange={() => {}}
                 >
-                  <SelectTrigger className="w-[80px] flex-shrink-0">
+                  <SelectTrigger className="h8 text-xs">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="contains">Contiene</SelectItem>
-                    <SelectItem value="equals">Igual a</SelectItem>
-                    <SelectItem value="startsWith">Comienza con</SelectItem>
+                    <SelectItem value="contains" className="text-xs">Contiene</SelectItem>
+                    <SelectItem value="equals" className="text-xs">Igual a</SelectItem>
+                    <SelectItem value="startsWith" className="text-xs">Comienza con</SelectItem>
                   </SelectContent>
                 </Select>
                 <Input 
@@ -457,70 +457,74 @@ const Articles = () => {
       </Card>
       
       {/* Updated toolbar */}
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-3">
         <Button 
-          variant="outline" 
+          variant="outline"
+          size="sm"
           onClick={handleNewArticle}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 h-8 text-xs px-2"
         >
-          <Plus size={16} />
+          <Plus size={14} />
           Nuevo
         </Button>
         <Button 
           variant="outline" 
+          size="sm"
           onClick={() => {
             // For demo purposes, edit the first article
             if (articles.length > 0) handleEditArticle(articles[0]);
           }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 h-8 text-xs px-2"
         >
-          <PencilLine size={16} />
+          <PencilLine size={14} />
           Modificar
         </Button>
         <Button 
           variant="outline" 
+          size="sm" 
           onClick={() => {
             // Would delete an article in a real app
             console.log("Delete article");
           }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 h-8 text-xs px-2"
         >
-          <Trash2 size={16} />
+          <Trash2 size={14} />
           Eliminar
         </Button>
         <Button 
           variant="outline" 
+          size="sm" 
           onClick={() => {
             // For demo purposes, view the first article
             if (articles.length > 0) handleViewArticle(articles[0]);
           }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 h-8 text-xs px-2"
         >
           <Eye size={16} />
           Ver Detalle
         </Button>
       </div>
 
-      <Card>
+      <Card className="shadow-sm text-xs">
         <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Código</TableHead>
-                <TableHead>Nombre</TableHead>
-                <TableHead>Descripción</TableHead>
-                <TableHead className="w-[100px] text-right">Precio</TableHead>
-                <TableHead className="text-right w-[180px]">Acciones</TableHead>
+              <TableRow className="h-8">
+                <TableHead className="w-[100px] text-xs font-medium">Código</TableHead>
+                <TableHead className="text-xs font-medium">Nombre</TableHead>
+                <TableHead className="text-xs font-medium">Descripción</TableHead>
+                <TableHead className="w-[100px] text-right text-xs font-medium">Precio</TableHead>
+                <TableHead className="text-right w-[180px] text-xs font-medium">Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {currentArticles.map((article) => (
-                <TableRow key={article.id}>
-                  <TableCell>{article.code}</TableCell>
-                  <TableCell>{article.name}</TableCell>
-                  <TableCell>{article.description}</TableCell>
-                  <TableCell className="text-right">{article.price.toFixed(2)}</TableCell>
-                  <TableCell className="text-right flex justify-end gap-1">
+                <TableRow key={article.id} className="h-8">
+                  <TableCell className="text-xs py-1">{article.code}</TableCell>
+                  <TableCell className="text-xs py-1">{article.name}</TableCell>
+                  <TableCell className="text-xs py-1">{article.description}</TableCell>
+                  <TableCell className="text-right text-xs py-1">{article.price.toFixed(2)}</TableCell>
+                  <TableCell className="text-right flex justify-end gap-1 text-xs py-1">
                     <Button 
                       variant="ghost" 
                       size="icon"
@@ -551,9 +555,9 @@ const Articles = () => {
             </TableBody>
           </Table>
           
-          <div className="flex items-center justify-between px-4 py-4 border-t">
+          <div className="flex items-center justify-between px-3 py-2 border-t text-xs">
             <div className="flex items-center gap-2">
-              <p className="text-sm font-medium">Filas por página</p>
+              <p className="text-xs font-medium">Filas por página</p>
               <Select
                 value={perPage}
                 onValueChange={(value) => {
@@ -561,24 +565,24 @@ const Articles = () => {
                   setCurrentPage(1);
                 }}
               >
-                <SelectTrigger className="h-8 w-[70px]">
+                <SelectTrigger className="h-7 w-[60px] text-xs">
                   <SelectValue placeholder={perPage} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="5">5</SelectItem>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="20">20</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="5" className="text-xs">5</SelectItem>
+                  <SelectItem value="10" className="text-xs">10</SelectItem>
+                  <SelectItem value="20" className="text-xs">20</SelectItem>
+                  <SelectItem value="50" className="text-xs">50</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             
             <Pagination>
-              <PaginationContent>
+              <PaginationContent className="text-xs">
                 <PaginationItem>
                   <PaginationPrevious 
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                    className={`text-xs h-7 ${currentPage === 1 ? "pointer-events-none opacity-50" : ""}`}
                   />
                 </PaginationItem>
                 
@@ -587,6 +591,7 @@ const Articles = () => {
                     <PaginationLink
                       isActive={page === currentPage}
                       onClick={() => setCurrentPage(page)}
+                      className="text-xs h-7 w-7"
                     >
                       {page}
                     </PaginationLink>
@@ -596,7 +601,7 @@ const Articles = () => {
                 <PaginationItem>
                   <PaginationNext 
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                    className={`text-xs h-7 ${currentPage === totalPages ? "pointer-events-none opacity-50" : ""}`}
                   />
                 </PaginationItem>
               </PaginationContent>

@@ -1,3 +1,4 @@
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -35,19 +36,12 @@
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -97,5 +91,52 @@
 
   body {
     @apply bg-background text-foreground;
+    font-size: 14px;
   }
+  
+  h1 {
+    @apply text-2xl font-semibold;
+  }
+  
+  h2 {
+    @apply text-xl font-semibold;
+  }
+  
+  h3 {
+    @apply text-lg font-medium;
+  }
+  
+  /* Reduce spacing for form elements */
+  .form-row {
+    @apply my-2;
+  }
+  
+  /* Reduce spacing between components */
+  .space-y-4 {
+    @apply space-y-3;
+  }
+  
+  .space-y-6 {
+    @apply space-y-4;
+  }
+  
+  /* Make tabs more compact */
+  .tabs-compact [role="tab"] {
+    @apply py-1.5 px-3 text-sm;
+  }
+}
+
+/* Compact form styling */
+.compact-form .form-group {
+  @apply mb-2;
+}
+
+.compact-form label {
+  @apply text-sm mb-1;
+}
+
+.compact-form input,
+.compact-form select,
+.compact-form textarea {
+  @apply text-sm py-1 px-2;
 }

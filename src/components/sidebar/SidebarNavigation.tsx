@@ -32,7 +32,7 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ children }
               </div>
             </div>
           </SidebarHeader>
-          <SidebarContent className="text-sm">
+          <SidebarContent className="text-xs">
             {filteredMenu.map((item) => (
               <RenderMenuItem key={item.title} item={item} level={0} />
             ))}

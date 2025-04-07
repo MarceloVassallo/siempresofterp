@@ -91,48 +91,57 @@
 
   body {
     @apply bg-background text-foreground;
-    font-size: 14px;
+    font-size: 13px;
   }
   
   h1 {
-    @apply text-2xl font-semibold;
-  }
-  
-  h2 {
     @apply text-xl font-semibold;
   }
   
+  h2 {
+    @apply text-lg font-semibold;
+  }
+  
   h3 {
-    @apply text-lg font-medium;
+    @apply text-base font-medium;
   }
   
   /* Reduce spacing for form elements */
   .form-row {
-    @apply my-2;
+    @apply my-1.5;
   }
   
   /* Reduce spacing between components */
   .space-y-4 {
-    @apply space-y-3;
+    @apply space-y-2;
   }
   
   .space-y-6 {
-    @apply space-y-4;
+    @apply space-y-3;
   }
   
   /* Make tabs more compact */
   .tabs-compact [role="tab"] {
-    @apply py-1.5 px-3 text-sm;
+    @apply py-1 px-2 text-sm;
+  }
+  
+  /* Make headings in content areas more appropriate size */
+  .content-area h1 {
+    @apply text-lg;
+  }
+  
+  .content-area h2 {
+    @apply text-base;
   }
 }
 
 /* Compact form styling */
 .compact-form .form-group {
-  @apply mb-2;
+  @apply mb-1.5;
 }
 
 .compact-form label {
-  @apply text-sm mb-1;
+  @apply text-sm mb-0.5;
 }
 
 .compact-form input,
@@ -140,3 +149,19 @@
 .compact-form textarea {
   @apply text-sm py-1 px-2;
 }
+
+/* Make consistent font sizes for content pages */
+.page-content {
+  font-size: 0.875rem;
+}
+
+.page-content h1 {
+  @apply text-lg;
+}
+
+.page-content input,
+.page-content select,
+.page-content button {
+  @apply text-sm;
+}
+

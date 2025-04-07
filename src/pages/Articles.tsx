@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +10,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
-import { Archive, Edit, Eye, Trash, Plus } from "lucide-react";
+import { Archive, Edit, Eye, Trash, Plus, Search } from "lucide-react";
 import { Article } from "@/types/article";
 import { Link, useNavigate } from "react-router-dom";
 import {
@@ -28,6 +29,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import EditArticleForm from "@/components/EditArticleForm";
 
 // Aquí iría el código preexistente para mostrar artículos
 // Asumo que ya existe un array de artículos como este:
@@ -52,9 +57,33 @@ const articleData: Article[] = [
 ];
 
 const Articles = () => {
+  // Estado para controlar el formulario de artículos
+  const [showForm, setShowForm] = useState<boolean>(false);
+  const [formMode, setFormMode] = useState<"new" | "edit" | "view">("new");
+  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
+  
   // Añadimos paginación
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [perPage, setPerPage] = useState<string>("5");
+  
+  // Estado para los filtros de búsqueda
+  const [searchFilters, setSearchFilters] = useState({
+    description: "",
+    class: "",
+    subClass: "",
+    code: "",
+    crossReference: "",
+    alternateCode: "",
+    partNumber: "",
+    storage: "",
+    status: "",
+    brand: "",
+    client: "",
+    supplier: "",
+    price: "",
+    categoryAccount: "",
+    hasStock: false
+  });
   
   const articles = articleData; // En un caso real, esto vendría de un estado o contexto
   
@@ -71,15 +100,366 @@ const Articles = () => {
     navigate(`/articles/${articleId}/assign-warehouse`);
   };
 
+  const handleNewArticle = () => {
+    setSelectedArticle(null);
+    setFormMode("new");
+    setShowForm(true);
+  };
+
+  const handleEditArticle = (article: Article) => {
+    setSelectedArticle(article);
+    setFormMode("edit");
+    setShowForm(true);
+  };
+
+  const handleViewArticle = (article: Article) => {
+    setSelectedArticle(article);
+    setFormMode("view");
+    setShowForm(true);
+  };
+
+  const handleSaveArticle = (article: Article) => {
+    // En un caso real, aquí guardaríamos el artículo
+    console.log("Artículo guardado:", article);
+    setShowForm(false);
+  };
+
+  const handleCloseForm = () => {
+    setShowForm(false);
+  };
+
+  const handleFilterChange = (field: string, value: string | boolean) => {
+    setSearchFilters({
+      ...searchFilters,
+      [field]: value
+    });
+  };
+
+  const handleSearch = () => {
+    // En un caso real, aquí aplicaríamos los filtros
+    console.log("Buscar con filtros:", searchFilters);
+    // Reiniciar paginación al buscar
+    setCurrentPage(1);
+  };
+
+  // Si el formulario está visible, mostrarlo
+  if (showForm) {
+    return (
+      <EditArticleForm 
+        mode={formMode} 
+        article={selectedArticle} 
+        onClose={handleCloseForm} 
+        onSave={handleSaveArticle}
+      />
+    );
+  }
+
   return (
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Gestión de Artículos</h1>
-        <Button>
+        <Button onClick={handleNewArticle}>
           <Plus className="mr-2 h-4 w-4" />
           Nuevo
         </Button>
       </div>
+      
+      {/* Panel de búsqueda */}
+      <Card className="mb-6">
+        <CardContent className="p-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="description">Descripción</Label>
+              <div className="flex items-center gap-2">
+                <Select
+                  value="contains"
+                  onValueChange={() => {}}
+                >
+                  <SelectTrigger className="w-[80px] flex-shrink-0">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="contains">Contiene</SelectItem>
+                    <SelectItem value="equals">Igual a</SelectItem>
+                    <SelectItem value="startsWith">Comienza con</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input 
+                  id="description"
+                  value={searchFilters.description}
+                  onChange={(e) => handleFilterChange("description", e.target.value)}
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="class">Clase</Label>
+              <div className="flex items-center gap-2">
+                <Select
+                  value="all"
+                  onValueChange={(value) => handleFilterChange("class", value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todas</SelectItem>
+                    <SelectItem value="class1">Clase 1</SelectItem>
+                    <SelectItem value="class2">Clase 2</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="subClass">Sub Clase</Label>
+              <div className="flex items-center gap-2">
+                <Select
+                  value="all"
+                  onValueChange={(value) => handleFilterChange("subClass", value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todas</SelectItem>
+                    <SelectItem value="subclass1">Sub Clase 1</SelectItem>
+                    <SelectItem value="subclass2">Sub Clase 2</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="code">Cód. Artículo</Label>
+              <div className="flex items-center gap-2">
+                <Select
+                  value="contains"
+                  onValueChange={() => {}}
+                >
+                  <SelectTrigger className="w-[80px] flex-shrink-0">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="contains">Contiene</SelectItem>
+                    <SelectItem value="equals">Igual a</SelectItem>
+                    <SelectItem value="startsWith">Comienza con</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input 
+                  id="code"
+                  value={searchFilters.code}
+                  onChange={(e) => handleFilterChange("code", e.target.value)}
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="alternateCode">Cód. Alterno</Label>
+              <div className="flex items-center gap-2">
+                <Select
+                  value="contains"
+                  onValueChange={() => {}}
+                >
+                  <SelectTrigger className="w-[80px] flex-shrink-0">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="contains">Contiene</SelectItem>
+                    <SelectItem value="equals">Igual a</SelectItem>
+                    <SelectItem value="startsWith">Comienza con</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input 
+                  id="alternateCode"
+                  value={searchFilters.alternateCode}
+                  onChange={(e) => handleFilterChange("alternateCode", e.target.value)}
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="crossReference">Ref. Cruzada</Label>
+              <div className="flex items-center gap-2">
+                <Select
+                  value="contains"
+                  onValueChange={() => {}}
+                >
+                  <SelectTrigger className="w-[80px] flex-shrink-0">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="contains">Contiene</SelectItem>
+                    <SelectItem value="equals">Igual a</SelectItem>
+                    <SelectItem value="startsWith">Comienza con</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input 
+                  id="crossReference"
+                  value={searchFilters.crossReference}
+                  onChange={(e) => handleFilterChange("crossReference", e.target.value)}
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="partNumber">Nro.Parte</Label>
+              <div className="flex items-center gap-2">
+                <Select
+                  value="contains"
+                  onValueChange={() => {}}
+                >
+                  <SelectTrigger className="w-[80px] flex-shrink-0">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="contains">Contiene</SelectItem>
+                    <SelectItem value="equals">Igual a</SelectItem>
+                    <SelectItem value="startsWith">Comienza con</SelectItem>
+                  </SelectContent>
+                </Select>
+                <Input 
+                  id="partNumber"
+                  value={searchFilters.partNumber}
+                  onChange={(e) => handleFilterChange("partNumber", e.target.value)}
+                />
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="storage">Almacenamiento</Label>
+              <div className="flex items-center gap-2">
+                <Select
+                  value="all"
+                  onValueChange={(value) => handleFilterChange("storage", value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    <SelectItem value="almacen1">Almacén Principal</SelectItem>
+                    <SelectItem value="almacen2">Almacén Secundario</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="status">Estado</Label>
+              <div className="flex items-center gap-2">
+                <Select
+                  value="all"
+                  onValueChange={(value) => handleFilterChange("status", value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todos</SelectItem>
+                    <SelectItem value="activo">Activo</SelectItem>
+                    <SelectItem value="inactivo">Inactivo</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="brand">Marca</Label>
+              <div className="flex items-center gap-2">
+                <Select
+                  value="all"
+                  onValueChange={(value) => handleFilterChange("brand", value)}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Todas</SelectItem>
+                    <SelectItem value="fixall">FIXALL</SelectItem>
+                    <SelectItem value="anclaflex">ANCLAFLEX</SelectItem>
+                    <SelectItem value="sellotape">SELLOTAPE</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="client">Cliente</Label>
+              <Input 
+                id="client"
+                value={searchFilters.client}
+                onChange={(e) => handleFilterChange("client", e.target.value)}
+              />
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="supplier">Proveedor</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="supplier"
+                  className="flex-1"
+                  value={searchFilters.supplier}
+                  onChange={(e) => handleFilterChange("supplier", e.target.value)}
+                />
+                <Button variant="outline" className="w-12" size="icon">
+                  <Search className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="price">Cotización</Label>
+              <div className="flex gap-2">
+                <Input
+                  id="price"
+                  type="number"
+                  className="flex-1"
+                  value={searchFilters.price}
+                  onChange={(e) => handleFilterChange("price", e.target.value)}
+                />
+                <Button variant="outline" className="w-12" size="icon">
+                  <Search className="h-4 w-4" />
+                </Button>
+              </div>
+            </div>
+            
+            <div className="space-y-2">
+              <Label htmlFor="categoryAccount">Cat. Contable</Label>
+              <Select
+                value={searchFilters.categoryAccount || "all"}
+                onValueChange={(value) => handleFilterChange("categoryAccount", value)}
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Todas</SelectItem>
+                  <SelectItem value="mercaderia">Mercadería</SelectItem>
+                  <SelectItem value="suministros">Suministros</SelectItem>
+                  <SelectItem value="activos">Activos</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+          
+          <div className="flex items-center mt-4 gap-2">
+            <Checkbox 
+              id="hasStock" 
+              checked={searchFilters.hasStock}
+              onCheckedChange={(checked) => handleFilterChange("hasStock", Boolean(checked))}
+            />
+            <Label htmlFor="hasStock">Con stock disponible</Label>
+          </div>
+          
+          <div className="flex justify-end mt-6">
+            <Button onClick={handleSearch}>
+              <Search className="mr-2 h-4 w-4" />
+              Buscar
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
       
       <Card>
         <CardContent className="p-0">
@@ -101,10 +481,18 @@ const Articles = () => {
                   <TableCell>{article.description}</TableCell>
                   <TableCell className="text-right">{article.price.toFixed(2)}</TableCell>
                   <TableCell className="text-right flex justify-end gap-1">
-                    <Button variant="ghost" size="icon">
+                    <Button 
+                      variant="ghost" 
+                      size="icon"
+                      onClick={() => handleEditArticle(article)}
+                    >
                       <Edit className="h-4 w-4" />
                     </Button>
-                    <Button variant="ghost" size="icon">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={() => handleViewArticle(article)}
+                    >
                       <Eye className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="icon">

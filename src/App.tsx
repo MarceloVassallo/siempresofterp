@@ -31,11 +31,6 @@ const App = () => (
               <Articles />
             </LayoutWithSidebar>
           } />
-          <Route path="/articles/:id/assign-warehouse" element={
-            <LayoutWithSidebar>
-              <ItemWarehouseForm />
-            </LayoutWithSidebar>
-          } />
           <Route path="/warehouses" element={
             <LayoutWithSidebar>
               <EditWarehouse />

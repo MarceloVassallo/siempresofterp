@@ -158,52 +158,7 @@ const Articles = () => {
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Gestión de Artículos</h1>
       </div>
-      
-      {/* Updated toolbar */}
-      <div className="flex flex-wrap gap-2 mb-4">
-        <Button 
-          variant="outline" 
-          onClick={handleNewArticle}
-          className="flex items-center gap-2"
-        >
-          <Plus size={16} />
-          Nuevo
-        </Button>
-        <Button 
-          variant="outline" 
-          onClick={() => {
-            // For demo purposes, edit the first article
-            if (articles.length > 0) handleEditArticle(articles[0]);
-          }}
-          className="flex items-center gap-2"
-        >
-          <PencilLine size={16} />
-          Modificar
-        </Button>
-        <Button 
-          variant="outline" 
-          onClick={() => {
-            // Would delete an article in a real app
-            console.log("Delete article");
-          }}
-          className="flex items-center gap-2"
-        >
-          <Trash2 size={16} />
-          Eliminar
-        </Button>
-        <Button 
-          variant="outline" 
-          onClick={() => {
-            // For demo purposes, view the first article
-            if (articles.length > 0) handleViewArticle(articles[0]);
-          }}
-          className="flex items-center gap-2"
-        >
-          <Eye size={16} />
-          Ver Detalle
-        </Button>
-      </div>
-      
+            
       {/* Panel de búsqueda */}
       <Card className="mb-6">
         <CardContent className="p-6">
@@ -501,6 +456,51 @@ const Articles = () => {
         </CardContent>
       </Card>
       
+      {/* Updated toolbar */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        <Button 
+          variant="outline" 
+          onClick={handleNewArticle}
+          className="flex items-center gap-2"
+        >
+          <Plus size={16} />
+          Nuevo
+        </Button>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            // For demo purposes, edit the first article
+            if (articles.length > 0) handleEditArticle(articles[0]);
+          }}
+          className="flex items-center gap-2"
+        >
+          <PencilLine size={16} />
+          Modificar
+        </Button>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            // Would delete an article in a real app
+            console.log("Delete article");
+          }}
+          className="flex items-center gap-2"
+        >
+          <Trash2 size={16} />
+          Eliminar
+        </Button>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            // For demo purposes, view the first article
+            if (articles.length > 0) handleViewArticle(articles[0]);
+          }}
+          className="flex items-center gap-2"
+        >
+          <Eye size={16} />
+          Ver Detalle
+        </Button>
+      </div>
+
       <Card>
         <CardContent className="p-0">
           <Table>

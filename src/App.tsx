@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import Articles from "./pages/Articles";
+import EditWarehouse from "./pages/EditWarehouse";
 import ItemWarehouseForm from "./components/ItemWarehouseForm";
 import { LayoutWithSidebar } from "./components/LayoutWithSidebar";
 
@@ -32,6 +33,11 @@ const App = () => (
           <Route path="/articles/:id/assign-warehouse" element={
             <LayoutWithSidebar>
               <ItemWarehouseForm />
+            </LayoutWithSidebar>
+          } />
+          <Route path="/warehouses" element={
+            <LayoutWithSidebar>
+              <EditWarehouse />
             </LayoutWithSidebar>
           } />
           <Route path="*" element={<NotFound />} />

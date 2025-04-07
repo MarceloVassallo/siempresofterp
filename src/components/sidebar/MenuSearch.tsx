@@ -24,7 +24,7 @@ export function MenuSearch({ onSearch }: MenuSearchProps) {
       <Input
         type="search"
         placeholder="Buscar..."
-        className="h-8 pl-8 text-xs"
+        className="h-8 text-xs"
         value={query}
         onChange={handleChange}
       />

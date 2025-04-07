@@ -20,6 +20,10 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ children }
   const [searchTerm, setSearchTerm] = useState("");
   const filteredMenu = filterMenuItems(menuStructure, searchTerm);
 
+  const handleSearch = (query: string) => {
+    setSearchTerm(query);
+  };
+
   return (
     <SidebarProvider>
       <div className="flex w-full min-h-screen">
@@ -28,7 +32,7 @@ export const SidebarNavigation: React.FC<SidebarNavigationProps> = ({ children }
             <div className="px-3 py-2">
               <h2 className="text-lg font-semibold">Siempresoft ERP</h2>
               <div className="mt-2">
-                <MenuSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+                <MenuSearch onSearch={handleSearch} />
               </div>
             </div>
           </SidebarHeader>

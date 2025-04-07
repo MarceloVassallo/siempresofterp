@@ -221,3 +221,5 @@ button {
 .dialog-content {
   @apply text-xs;
 }
+
+/* Update textarea component for consistent sizing */

@@ -10,6 +10,7 @@ import Articles from "./pages/Articles";
 import EditWarehouse from "./pages/EditWarehouse";
 import ItemWarehouseForm from "./components/ItemWarehouseForm";
 import { LayoutWithSidebar } from "./components/LayoutWithSidebar";
+import ArticleSeries from "./pages/ArticleSeries";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,11 @@ const App = () => (
           <Route path="/warehouses" element={
             <LayoutWithSidebar>
               <EditWarehouse />
+            </LayoutWithSidebar>
+          } />
+          <Route path="/article-series" element={
+            <LayoutWithSidebar>
+              <ArticleSeries />
             </LayoutWithSidebar>
           } />
           <Route path="*" element={<NotFound />} />

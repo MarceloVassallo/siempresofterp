@@ -9,7 +9,7 @@ interface ArticleFormHeaderProps {
 export const ArticleFormHeader = ({ mode }: ArticleFormHeaderProps) => {
   return (
     <CardHeader className="py-3 px-4">
-      <CardTitle className="text-base">
+      <CardTitle className="text-xs">
         {mode === "new" 
           ? "Nuevo Artículo" 
           : mode === "edit" 

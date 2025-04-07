@@ -41,7 +41,7 @@ export const LayoutWithSidebar = ({ children }: LayoutWithSidebarProps) => {
         <Sidebar>
           <SidebarHeader>
             <div className="px-3 py-2">
-              <h2 className="text-lg font-semibold">Sistema de Almacén</h2>
+              <h2 className="text-lg font-semibold">Siempresoft ERP</h2>
             </div>
           </SidebarHeader>
           <SidebarContent>

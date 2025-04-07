@@ -77,7 +77,7 @@ const Articles = () => {
         <h1 className="text-2xl font-bold">Gestión de Artículos</h1>
         <Button>
           <Plus className="mr-2 h-4 w-4" />
-          Nuevo Artículo
+          Nuevo
         </Button>
       </div>
       

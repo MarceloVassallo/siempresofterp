@@ -158,7 +158,7 @@ const EditWarehouse = () => {
   if (mode !== "LIST") {
     return (
       <div>
-        <h1 className="text-lg font-semibold mb-4">
+        <h1 className="text-base font-semibold mb-3">
           {mode === "NEW" ? "Nuevo Almacén" : 
            mode === "EDIT" ? "Modificar Almacén" : 
            "Ver Detalle de Almacén"}
@@ -180,7 +180,7 @@ const EditWarehouse = () => {
   return (
     <div className="text-sm">
       <div className="flex justify-between items-center mb-4">
-        <h1 className="text-lg font-semibold">Gestión de Almacenes</h1>
+        <h1 className="text-base font-semibold">Gestión de Almacenes</h1>
       </div>
       
       {/* Updated toolbar */}

@@ -47,11 +47,11 @@ export function WarehouseLocationForm({ form, readOnly = false }: WarehouseLocat
         name="otherAddress"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Otra Dirección</FormLabel>
+            <FormLabel className="text-xs">Otra Dirección</FormLabel>
             <FormControl>
-              <Input {...field} maxLength={80} disabled={readOnly} />
+              <Input {...field} maxLength={80} disabled={readOnly} className="h-8 text-xs" />
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
@@ -61,10 +61,10 @@ export function WarehouseLocationForm({ form, readOnly = false }: WarehouseLocat
         name="branchId"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Sucursal</FormLabel>
+            <FormLabel className="text-xs">Sucursal</FormLabel>
             <Select onValueChange={field.onChange} value={field.value} disabled={readOnly}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-8 text-xs">
                   <SelectValue placeholder="Seleccionar sucursal" />
                 </SelectTrigger>
               </FormControl>
@@ -76,7 +76,7 @@ export function WarehouseLocationForm({ form, readOnly = false }: WarehouseLocat
                 ))}
               </SelectContent>
             </Select>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
@@ -86,10 +86,10 @@ export function WarehouseLocationForm({ form, readOnly = false }: WarehouseLocat
         name="locationId"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Localidad</FormLabel>
+            <FormLabel className="text-xs">Localidad</FormLabel>
             <Select onValueChange={field.onChange} value={field.value} disabled={readOnly}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-8 text-xs">
                   <SelectValue placeholder="Seleccionar localidad" />
                 </SelectTrigger>
               </FormControl>
@@ -101,7 +101,7 @@ export function WarehouseLocationForm({ form, readOnly = false }: WarehouseLocat
                 ))}
               </SelectContent>
             </Select>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
@@ -111,10 +111,10 @@ export function WarehouseLocationForm({ form, readOnly = false }: WarehouseLocat
         name="warehouseType"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Tipo</FormLabel>
+            <FormLabel className="text-xs">Tipo</FormLabel>
             <Select onValueChange={field.onChange} value={field.value} disabled={readOnly}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-8 text-xs">
                   <SelectValue placeholder="Seleccionar tipo" />
                 </SelectTrigger>
               </FormControl>
@@ -126,7 +126,7 @@ export function WarehouseLocationForm({ form, readOnly = false }: WarehouseLocat
                 ))}
               </SelectContent>
             </Select>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
@@ -136,10 +136,10 @@ export function WarehouseLocationForm({ form, readOnly = false }: WarehouseLocat
         name="costCenterId"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Centro Costo</FormLabel>
+            <FormLabel className="text-xs">Centro Costo</FormLabel>
             <Select onValueChange={field.onChange} value={field.value} disabled={readOnly}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-8 text-xs">
                   <SelectValue placeholder="Seleccionar centro de costo" />
                 </SelectTrigger>
               </FormControl>
@@ -151,7 +151,7 @@ export function WarehouseLocationForm({ form, readOnly = false }: WarehouseLocat
                 ))}
               </SelectContent>
             </Select>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
@@ -161,11 +161,11 @@ export function WarehouseLocationForm({ form, readOnly = false }: WarehouseLocat
         name="observations"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Observaciones</FormLabel>
+            <FormLabel className="text-xs">Observaciones</FormLabel>
             <FormControl>
-              <Input {...field} maxLength={40} disabled={readOnly} />
+              <Input {...field} maxLength={40} disabled={readOnly} className="h-8 text-xs" />
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />

@@ -4,6 +4,13 @@ import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/comp
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { UseFormReturn } from "react-hook-form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface WarehouseBasicInfoFormProps {
   form: UseFormReturn<Warehouse>;
@@ -19,11 +26,11 @@ export function WarehouseBasicInfoForm({ form, readOnly = false }: WarehouseBasi
           name="code"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Código</FormLabel>
+              <FormLabel className="text-xs">Código</FormLabel>
               <FormControl>
-                <Input {...field} maxLength={3} disabled={readOnly} />
+                <Input {...field} maxLength={3} disabled={readOnly} className="h-8 text-xs" />
               </FormControl>
-              <FormMessage />
+              <FormMessage className="text-xs" />
             </FormItem>
           )}
         />
@@ -40,7 +47,7 @@ export function WarehouseBasicInfoForm({ form, readOnly = false }: WarehouseBasi
                   disabled={readOnly}
                 />
               </FormControl>
-              <FormLabel>Inactivo</FormLabel>
+              <FormLabel className="text-xs">Inactivo</FormLabel>
             </FormItem>
           )}
         />
@@ -51,11 +58,11 @@ export function WarehouseBasicInfoForm({ form, readOnly = false }: WarehouseBasi
         name="establishmentCode"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Código Establecimiento</FormLabel>
+            <FormLabel className="text-xs">Código Establecimiento</FormLabel>
             <FormControl>
-              <Input {...field} maxLength={4} disabled={readOnly} />
+              <Input {...field} maxLength={4} disabled={readOnly} className="h-8 text-xs" />
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
@@ -65,11 +72,11 @@ export function WarehouseBasicInfoForm({ form, readOnly = false }: WarehouseBasi
         name="name"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Nombre</FormLabel>
+            <FormLabel className="text-xs">Nombre</FormLabel>
             <FormControl>
-              <Input {...field} maxLength={40} disabled={readOnly} />
+              <Input {...field} maxLength={40} disabled={readOnly} className="h-8 text-xs" />
             </FormControl>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
@@ -79,14 +86,14 @@ export function WarehouseBasicInfoForm({ form, readOnly = false }: WarehouseBasi
         name="companyId"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Compañía</FormLabel>
+            <FormLabel className="text-xs">Compañía</FormLabel>
             <Select 
               onValueChange={field.onChange} 
               value={field.value}
               disabled={true}
             >
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-8 text-xs">
                   <SelectValue placeholder="Seleccionar compañía" />
                 </SelectTrigger>
               </FormControl>
@@ -98,7 +105,7 @@ export function WarehouseBasicInfoForm({ form, readOnly = false }: WarehouseBasi
                 ))}
               </SelectContent>
             </Select>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
@@ -108,10 +115,10 @@ export function WarehouseBasicInfoForm({ form, readOnly = false }: WarehouseBasi
         name="address"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Dirección</FormLabel>
+            <FormLabel className="text-xs">Dirección</FormLabel>
             <Select onValueChange={field.onChange} value={field.value} disabled={readOnly}>
               <FormControl>
-                <SelectTrigger>
+                <SelectTrigger className="h-8 text-xs">
                   <SelectValue placeholder="Seleccionar dirección" />
                 </SelectTrigger>
               </FormControl>
@@ -123,21 +130,13 @@ export function WarehouseBasicInfoForm({ form, readOnly = false }: WarehouseBasi
                 ))}
               </SelectContent>
             </Select>
-            <FormMessage />
+            <FormMessage className="text-xs" />
           </FormItem>
         )}
       />
     </div>
   );
 }
-
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 // Sample data for dropdowns
 const companies = [

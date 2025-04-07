@@ -1,22 +1,33 @@
 
-import React from "react";
+"use client";
+
+import { useState } from "react";
+import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
-import { SidebarInput } from "@/components/ui/sidebar";
 
 interface MenuSearchProps {
-  searchTerm: string;
-  setSearchTerm: (term: string) => void;
+  onSearch: (query: string) => void;
 }
 
-export const MenuSearch: React.FC<MenuSearchProps> = ({ searchTerm, setSearchTerm }) => {
+export function MenuSearch({ onSearch }: MenuSearchProps) {
+  const [query, setQuery] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setQuery(value);
+    onSearch(value);
+  };
+
   return (
-    <SidebarInput
-      type="search"
-      placeholder="Buscar..."
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      className="h-8 text-sm"
-      prefix={<Search className="h-4 w-4 opacity-50" />}
-    />
+    <div className="relative mb-2">
+      <Search className="absolute left-2 top-2.5 h-3.5 w-3.5 text-muted-foreground" />
+      <Input
+        type="search"
+        placeholder="Buscar..."
+        className="h-8 pl-8 text-xs"
+        value={query}
+        onChange={handleChange}
+      />
+    </div>
   );
-};
+}

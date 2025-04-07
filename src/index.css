@@ -91,24 +91,24 @@
 
   body {
     @apply bg-background text-foreground;
-    font-size: 13px;
+    font-size: 14px;
   }
   
   h1 {
-    @apply text-xl font-semibold;
+    @apply text-base font-semibold;
   }
   
   h2 {
-    @apply text-lg font-semibold;
+    @apply text-sm font-semibold;
   }
   
   h3 {
-    @apply text-base font-medium;
+    @apply text-sm font-medium;
   }
   
   /* Reduce spacing for form elements */
   .form-row {
-    @apply my-1.5;
+    @apply my-1;
   }
   
   /* Reduce spacing between components */
@@ -122,32 +122,32 @@
   
   /* Make tabs more compact */
   .tabs-compact [role="tab"] {
-    @apply py-1 px-2 text-sm;
+    @apply py-1 px-2 text-xs;
   }
   
   /* Make headings in content areas more appropriate size */
   .content-area h1 {
-    @apply text-lg;
+    @apply text-base;
   }
   
   .content-area h2 {
-    @apply text-base;
+    @apply text-sm;
   }
 }
 
 /* Compact form styling */
 .compact-form .form-group {
-  @apply mb-1.5;
+  @apply mb-1;
 }
 
 .compact-form label {
-  @apply text-sm mb-0.5;
+  @apply text-xs mb-0.5;
 }
 
 .compact-form input,
 .compact-form select,
 .compact-form textarea {
-  @apply text-sm py-1 px-2;
+  @apply text-xs py-1 px-2 h-8;
 }
 
 /* Make consistent font sizes for content pages */
@@ -156,12 +156,68 @@
 }
 
 .page-content h1 {
-  @apply text-lg;
+  @apply text-base;
 }
 
 .page-content input,
 .page-content select,
 .page-content button {
-  @apply text-sm;
+  @apply text-xs h-8;
 }
 
+/* Ensure all form controls are consistent size */
+.form-control, 
+input, 
+select, 
+textarea {
+  @apply h-8 text-xs;
+}
+
+/* Form labels */
+form label {
+  @apply text-xs;
+}
+
+/* Table styles */
+th {
+  @apply text-xs font-medium h-8 py-1;
+}
+
+td {
+  @apply text-xs py-1;
+}
+
+/* Form messages */
+.form-message {
+  @apply text-xs;
+}
+
+/* Buttons */
+button {
+  @apply text-xs;
+}
+
+/* Card headers */
+.card-header {
+  @apply py-2;
+}
+
+/* Card content */
+.card-content {
+  @apply py-2;
+}
+
+/* Table headers */
+.table-header {
+  @apply text-xs font-medium;
+}
+
+/* Table cells */
+.table-cell {
+  @apply text-xs py-1;
+}
+
+/* Dialog content */
+.dialog-content {
+  @apply text-xs;
+}

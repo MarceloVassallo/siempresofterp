@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -525,7 +526,7 @@ const Articles = () => {
                       size="icon"
                       onClick={() => handleEditArticle(article)}
                     >
-                      <Edit className="h-4 w-4" />
+                      <PencilLine className="h-4 w-4" />
                     </Button>
                     <Button 
                       variant="ghost" 
@@ -535,7 +536,7 @@ const Articles = () => {
                       <Eye className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="icon">
-                      <Trash className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                     <Button 
                       variant="ghost" 

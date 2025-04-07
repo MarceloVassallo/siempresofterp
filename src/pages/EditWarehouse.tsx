@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -9,7 +8,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { EditWarehouseForm } from "@/components/EditWarehouseForm";
+import { EditWarehouseForm } from "@/components/warehouse/EditWarehouseForm";
 import { Warehouse, defaultWarehouse } from "@/types/warehouse";
 import { Package, Edit, Eye, Trash, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";

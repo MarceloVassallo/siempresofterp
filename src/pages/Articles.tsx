@@ -1,174 +1,178 @@
-
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
-import { Search, Plus, Edit, FileSearch, Trash2, Warehouse } from "lucide-react";
-import { Article, mockArticles } from "@/types/article";
-import EditArticleForm from "@/components/EditArticleForm";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Card, CardContent } from "@/components/ui/card";
+import { Archive, Edit, Eye, Trash, Plus } from "lucide-react";
+import { Article } from "@/types/article";
+import { Link, useNavigate } from "react-router-dom";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+// Aquí iría el código preexistente para mostrar artículos
+// Asumo que ya existe un array de artículos como este:
+const articleData: Article[] = [
+  {
+    id: "1",
+    code: "A001",
+    name: "Artículo 1",
+    description: "Descripción del artículo 1",
+    price: 100,
+    // ... otros campos del artículo
+  },
+  {
+    id: "2",
+    code: "A002",
+    name: "Artículo 2",
+    description: "Descripción del artículo 2",
+    price: 200,
+    // ... otros campos del artículo
+  },
+  // ... más artículos
+];
 
 const Articles = () => {
-  const { toast } = useToast();
+  // Añadimos paginación
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [perPage, setPerPage] = useState<string>("5");
+  
+  const articles = articleData; // En un caso real, esto vendría de un estado o contexto
+  
+  const totalPages = Math.ceil(articles.length / parseInt(perPage));
+  const pageItems = Array.from({ length: totalPages }, (_, i) => i + 1);
+  
+  const startIndex = (currentPage - 1) * parseInt(perPage);
+  const endIndex = startIndex + parseInt(perPage);
+  const currentArticles = articles.slice(startIndex, endIndex);
+
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState("");
-  const [articles, setArticles] = useState<Article[]>(mockArticles);
-  const [formMode, setFormMode] = useState<"new" | "edit" | "view" | null>(null);
-  const [selectedArticle, setSelectedArticle] = useState<Article | null>(null);
-
-  const filteredArticles = articles.filter((article) => {
-    const searchLower = searchTerm.toLowerCase();
-    return (
-      article.code.toLowerCase().includes(searchLower) ||
-      article.description.toLowerCase().includes(searchLower) ||
-      article.alternateCode?.toLowerCase().includes(searchLower) ||
-      article.partNumber?.toLowerCase().includes(searchLower)
-    );
-  });
-
-  const handleNewArticle = () => {
-    setSelectedArticle(null);
-    setFormMode("new");
+  
+  const handleAssignWarehouse = (articleId: string) => {
+    navigate(`/articles/${articleId}/assign-warehouse`);
   };
-
-  const handleEditArticle = (article: Article) => {
-    setSelectedArticle(article);
-    setFormMode("edit");
-  };
-
-  const handleViewArticle = (article: Article) => {
-    setSelectedArticle(article);
-    setFormMode("view");
-  };
-
-  const handleDeleteArticle = (id: string) => {
-    if (window.confirm("¿Está seguro de eliminar este artículo?")) {
-      setArticles(articles.filter((article) => article.id !== id));
-      toast({
-        title: "Artículo eliminado",
-        description: "El artículo ha sido eliminado correctamente",
-      });
-    }
-  };
-
-  const handleSaveArticle = (article: Article) => {
-    if (formMode === "new") {
-      const newId = (articles.length + 1).toString();
-      const newArticle = { ...article, id: newId };
-      setArticles([...articles, newArticle]);
-    } else {
-      const updatedArticles = articles.map((a) =>
-        a.id === article.id ? article : a
-      );
-      setArticles(updatedArticles);
-    }
-    setFormMode(null);
-  };
-
-  const handleCloseForm = () => {
-    setFormMode(null);
-  };
-
-  const handleAssignWarehouse = (article: Article) => {
-    navigate(`/articles/${article.id}/assign-warehouse`);
-  };
-
-  if (formMode !== null) {
-    return (
-      <EditArticleForm
-        mode={formMode}
-        article={selectedArticle}
-        onClose={handleCloseForm}
-        onSave={handleSaveArticle}
-      />
-    );
-  }
 
   return (
-    <div className="container mx-auto py-6">
-      <Card className="shadow-sm">
-        <CardHeader className="pb-3">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <CardTitle className="text-2xl font-bold">Gestión de Artículos</CardTitle>
-            <Button onClick={handleNewArticle}>
-              <Plus className="mr-2 h-4 w-4" /> Nuevo Artículo
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex-1 space-y-2">
-              <Label htmlFor="search">Buscar Artículo</Label>
-              <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
-                <Input
-                  id="search"
-                  placeholder="Buscar por código, descripción..."
-                  className="pl-8"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                />
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-md border">
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Código</TableHead>
-                  <TableHead>Descripción</TableHead>
-                  <TableHead className="hidden md:table-cell">Código Alterno</TableHead>
-                  <TableHead className="hidden md:table-cell">Marca</TableHead>
-                  <TableHead className="hidden md:table-cell">Estado</TableHead>
-                  <TableHead className="text-right">Acciones</TableHead>
+    <div>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-bold">Gestión de Artículos</h1>
+        <Button>
+          <Plus className="mr-2 h-4 w-4" />
+          Nuevo Artículo
+        </Button>
+      </div>
+      
+      <Card>
+        <CardContent className="p-0">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[100px]">Código</TableHead>
+                <TableHead>Nombre</TableHead>
+                <TableHead>Descripción</TableHead>
+                <TableHead className="w-[100px] text-right">Precio</TableHead>
+                <TableHead className="text-right w-[180px]">Acciones</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {currentArticles.map((article) => (
+                <TableRow key={article.id}>
+                  <TableCell>{article.code}</TableCell>
+                  <TableCell>{article.name}</TableCell>
+                  <TableCell>{article.description}</TableCell>
+                  <TableCell className="text-right">{article.price.toFixed(2)}</TableCell>
+                  <TableCell className="text-right flex justify-end gap-1">
+                    <Button variant="ghost" size="icon">
+                      <Edit className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon">
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                    <Button variant="ghost" size="icon">
+                      <Trash className="h-4 w-4" />
+                    </Button>
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      onClick={() => handleAssignWarehouse(article.id)}
+                    >
+                      <Archive className="h-4 w-4" />
+                    </Button>
+                  </TableCell>
                 </TableRow>
-              </TableHeader>
-              <TableBody>
-                {filteredArticles.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={6} className="text-center py-6 text-muted-foreground">
-                      No se encontraron artículos
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  filteredArticles.map((article) => (
-                    <TableRow key={article.id}>
-                      <TableCell className="font-medium">{article.code}</TableCell>
-                      <TableCell className="max-w-[300px] truncate">{article.description}</TableCell>
-                      <TableCell className="hidden md:table-cell">{article.alternateCode || "-"}</TableCell>
-                      <TableCell className="hidden md:table-cell">{article.brand || "-"}</TableCell>
-                      <TableCell className="hidden md:table-cell">
-                        <span className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${
-                          article.status === 'Activo' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                        }`}>
-                          {article.status}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-right">
-                        <div className="flex justify-end items-center gap-2">
-                          <Button variant="ghost" size="icon" onClick={() => handleViewArticle(article)} title="Ver detalles">
-                            <FileSearch className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleEditArticle(article)} title="Editar artículo">
-                            <Edit className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleAssignWarehouse(article)} title="Asignar a almacén">
-                            <Warehouse className="h-4 w-4" />
-                          </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleDeleteArticle(article.id)} title="Eliminar artículo">
-                            <Trash2 className="h-4 w-4" />
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  ))
-                )}
-              </TableBody>
-            </Table>
+              ))}
+            </TableBody>
+          </Table>
+          
+          <div className="flex items-center justify-between px-4 py-4 border-t">
+            <div className="flex items-center gap-2">
+              <p className="text-sm font-medium">Filas por página</p>
+              <Select
+                value={perPage}
+                onValueChange={(value) => {
+                  setPerPage(value);
+                  setCurrentPage(1);
+                }}
+              >
+                <SelectTrigger className="h-8 w-[70px]">
+                  <SelectValue placeholder={perPage} />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="5">5</SelectItem>
+                  <SelectItem value="10">10</SelectItem>
+                  <SelectItem value="20">20</SelectItem>
+                  <SelectItem value="50">50</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            
+            <Pagination>
+              <PaginationContent>
+                <PaginationItem>
+                  <PaginationPrevious 
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+                    className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                  />
+                </PaginationItem>
+                
+                {pageItems.map((page) => (
+                  <PaginationItem key={page}>
+                    <PaginationLink
+                      isActive={page === currentPage}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </PaginationLink>
+                  </PaginationItem>
+                ))}
+                
+                <PaginationItem>
+                  <PaginationNext 
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                  />
+                </PaginationItem>
+              </PaginationContent>
+            </Pagination>
           </div>
         </CardContent>
       </Card>

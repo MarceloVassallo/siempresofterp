@@ -13,6 +13,7 @@ export interface Article {
   supplier?: string;
   categoryAccount?: string;
   hasStock?: boolean;
+  unitMeasure?: string;
 }
 
 export const mockArticles: Article[] = [
@@ -27,7 +28,8 @@ export const mockArticles: Article[] = [
     brand: "FIXALL",
     supplier: "Ferretería Industrial S.A.",
     categoryAccount: "mercaderia",
-    hasStock: true
+    hasStock: true,
+    unitMeasure: "NIU"
   },
   {
     id: "2",
@@ -40,7 +42,8 @@ export const mockArticles: Article[] = [
     brand: "FIXALL",
     supplier: "Ferretería Industrial S.A.",
     categoryAccount: "mercaderia",
-    hasStock: true
+    hasStock: true,
+    unitMeasure: "NIU"
   },
   {
     id: "3",
@@ -53,7 +56,8 @@ export const mockArticles: Article[] = [
     brand: "FIXALL",
     supplier: "Ferretería Industrial S.A.",
     categoryAccount: "mercaderia",
-    hasStock: false
+    hasStock: false,
+    unitMeasure: "NIU"
   },
   {
     id: "4",
@@ -66,7 +70,8 @@ export const mockArticles: Article[] = [
     brand: "ANCLAFLEX",
     supplier: "Importadora Técnica S.A.",
     categoryAccount: "suministros",
-    hasStock: true
+    hasStock: true,
+    unitMeasure: "NIU"
   },
   {
     id: "5",
@@ -79,6 +84,7 @@ export const mockArticles: Article[] = [
     brand: "SELLOTAPE",
     supplier: "Distribuidora Nacional S.A.",
     categoryAccount: "mercaderia",
-    hasStock: false
+    hasStock: false,
+    unitMeasure: "NIU"
   }
 ];

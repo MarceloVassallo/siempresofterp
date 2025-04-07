@@ -1,6 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -22,9 +23,33 @@ import {
 import { ItemWarehouse, defaultItemWarehouse } from "@/types/itemWarehouse";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
+import { mockArticles } from "@/types/article";
+import { ArrowLeft } from "lucide-react";
 
 const ItemWarehouseForm = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const [item, setItem] = useState<ItemWarehouse>(defaultItemWarehouse);
+  const article = mockArticles.find(article => article.id === id);
+
+  useEffect(() => {
+    if (article) {
+      // Actualizar el formulario con los datos del artículo
+      setItem({
+        ...defaultItemWarehouse,
+        code: article.code,
+        description: article.description,
+        unitMeasure: article.unitMeasure || "NIU"
+      });
+      
+      form.reset({
+        ...defaultItemWarehouse,
+        code: article.code,
+        description: article.description,
+        unitMeasure: article.unitMeasure || "NIU"
+      });
+    }
+  }, [article]);
 
   // Mock data for dropdowns
   const warehouses = [
@@ -56,7 +81,7 @@ const ItemWarehouseForm = () => {
   ];
 
   const form = useForm<ItemWarehouse>({
-    defaultValues: defaultItemWarehouse,
+    defaultValues: item,
   });
 
   const { watch, setValue } = form;
@@ -69,290 +94,135 @@ const ItemWarehouseForm = () => {
   const handleSubmit = (data: ItemWarehouse) => {
     console.log("Form submitted:", data);
     toast.success("Asignación de artículo actualizada con éxito");
+    navigate("/articles");
   };
 
+  const handleCancel = () => {
+    navigate("/articles");
+  };
+
+  if (!article) {
+    return (
+      <Card className="w-full max-w-4xl mx-auto">
+        <CardHeader>
+          <CardTitle className="text-2xl font-bold">Artículo no encontrado</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Button onClick={handleCancel}>
+            <ArrowLeft className="mr-2 h-4 w-4" /> Volver a Artículos
+          </Button>
+        </CardContent>
+      </Card>
+    );
+  }
+
   return (
-    <Card className="w-full max-w-4xl mx-auto">
-      <CardContent className="pt-6">
-        <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="code"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Código</FormLabel>
-                    <FormControl>
-                      <Input {...field} readOnly />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="unitMeasure"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Unidad de Medida</FormLabel>
-                    <FormControl>
-                      <Input {...field} readOnly />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+    <div className="container mx-auto py-6">
+      <Card className="w-full mx-auto">
+        <CardHeader className="pb-3">
+          <div className="flex items-start justify-between">
+            <div>
+              <Button variant="ghost" size="sm" onClick={handleCancel} className="mb-2">
+                <ArrowLeft className="mr-2 h-4 w-4" /> Volver
+              </Button>
+              <CardTitle className="text-2xl font-bold">Asignación de Artículo a Almacén</CardTitle>
+              <p className="text-sm text-muted-foreground mt-1">
+                Configure las propiedades del artículo {article.code} - {article.description} en el almacén
+              </p>
             </div>
-
-            <FormField
-              control={form.control}
-              name="description"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Descripción</FormLabel>
-                  <FormControl>
-                    <Input {...field} readOnly />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="warehouse"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Almacén</FormLabel>
-                  <Select
-                    onValueChange={field.onChange}
-                    defaultValue={field.value}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Selecciona un almacén" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      {warehouses.map((warehouse) => (
-                        <SelectItem
-                          key={warehouse.value}
-                          value={warehouse.value}
-                        >
-                          {warehouse.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <Tabs defaultValue="taxes" className="w-full">
-              <TabsList className="grid grid-cols-3">
-                <TabsTrigger value="taxes">Impuestos</TabsTrigger>
-                <TabsTrigger value="inventory">Control de Inventario</TabsTrigger>
-                <TabsTrigger value="others">Otros Datos</TabsTrigger>
-              </TabsList>
-
-              {/* Taxes Tab */}
-              <TabsContent value="taxes" className="space-y-4 pt-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="affectedByIGV"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel>Afecto a IGV</FormLabel>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="affectedByIVAP"
-                    render={({ field }) => (
-                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                        <FormControl>
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <div className="space-y-1 leading-none">
-                          <FormLabel>Afecto a IVAP</FormLabel>
-                        </div>
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="igvAffectationCode"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Afectación IGV</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Seleccione" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {igvAffectationCodes.map((code) => (
-                              <SelectItem key={code.value} value={code.value}>
-                                {code.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="igvRate"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Tasa IGV</FormLabel>
-                        <Select
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                        >
-                          <FormControl>
-                            <SelectTrigger>
-                              <SelectValue placeholder="Seleccione" />
-                            </SelectTrigger>
-                          </FormControl>
-                          <SelectContent>
-                            {igvRates.map((rate) => (
-                              <SelectItem key={rate.value} value={rate.value}>
-                                {rate.label}
-                              </SelectItem>
-                            ))}
-                          </SelectContent>
-                        </Select>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
+          </div>
+        </CardHeader>
+        <CardContent className="pt-3">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormField
                   control={form.control}
-                  name="affectedByISC"
+                  name="code"
                   render={({ field }) => (
-                    <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                    <FormItem>
+                      <FormLabel>Código</FormLabel>
                       <FormControl>
-                        <Checkbox
-                          checked={field.value}
-                          onCheckedChange={field.onChange}
-                        />
+                        <Input {...field} readOnly />
                       </FormControl>
-                      <div className="space-y-1 leading-none">
-                        <FormLabel>Afecto a ISC</FormLabel>
-                      </div>
+                      <FormMessage />
                     </FormItem>
                   )}
                 />
+                
+                <FormField
+                  control={form.control}
+                  name="unitMeasure"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Unidad de Medida</FormLabel>
+                      <FormControl>
+                        <Input {...field} readOnly />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-                {affectedByISC && (
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <FormField
-                      control={form.control}
-                      name="iscType"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Tipo ISC</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Seleccione" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {iscTypes.map((type) => (
-                                <SelectItem key={type.value} value={type.value}>
-                                  {type.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="iscPercentage"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Porcentaje</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-
-                    <FormField
-                      control={form.control}
-                      name="iscUnitMeasure"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>UM ISC</FormLabel>
-                          <Select
-                            onValueChange={field.onChange}
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Seleccione" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {unitMeasures.map((um) => (
-                                <SelectItem key={um.value} value={um.value}>
-                                  {um.label}
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Descripción</FormLabel>
+                    <FormControl>
+                      <Input {...field} readOnly />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
                 )}
+              />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
+              <FormField
+                control={form.control}
+                name="warehouse"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Almacén</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Selecciona un almacén" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {warehouses.map((warehouse) => (
+                          <SelectItem
+                            key={warehouse.value}
+                            value={warehouse.value}
+                          >
+                            {warehouse.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Tabs defaultValue="taxes" className="w-full">
+                <TabsList className="grid grid-cols-3">
+                  <TabsTrigger value="taxes">Impuestos</TabsTrigger>
+                  <TabsTrigger value="inventory">Control de Inventario</TabsTrigger>
+                  <TabsTrigger value="others">Otros Datos</TabsTrigger>
+                </TabsList>
+
+                {/* Taxes Tab */}
+                <TabsContent value="taxes" className="space-y-4 pt-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
-                      name="affectedByICBPER"
+                      name="affectedByIGV"
                       render={({ field }) => (
                         <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                           <FormControl>
@@ -362,19 +232,15 @@ const ItemWarehouseForm = () => {
                             />
                           </FormControl>
                           <div className="space-y-1 leading-none">
-                            <FormLabel>Afecto a ICBPER</FormLabel>
+                            <FormLabel>Afecto a IGV</FormLabel>
                           </div>
                         </FormItem>
                       )}
                     />
-                  </div>
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
                     <FormField
                       control={form.control}
-                      name="affectedByPerception"
+                      name="affectedByIVAP"
                       render={({ field }) => (
                         <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
                           <FormControl>
@@ -384,18 +250,122 @@ const ItemWarehouseForm = () => {
                             />
                           </FormControl>
                           <div className="space-y-1 leading-none">
-                            <FormLabel>Afecto a Percepción</FormLabel>
+                            <FormLabel>Afecto a IVAP</FormLabel>
                           </div>
                         </FormItem>
                       )}
                     />
                   </div>
 
-                  {affectedByPerception && (
-                    <div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="igvAffectationCode"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Afectación IGV</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Seleccione" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {igvAffectationCodes.map((code) => (
+                                <SelectItem key={code.value} value={code.value}>
+                                  {code.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="igvRate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Tasa IGV</FormLabel>
+                          <Select
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Seleccione" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {igvRates.map((rate) => (
+                                <SelectItem key={rate.value} value={rate.value}>
+                                  {rate.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+
+                  <FormField
+                    control={form.control}
+                    name="affectedByISC"
+                    render={({ field }) => (
+                      <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                        <FormControl>
+                          <Checkbox
+                            checked={field.value}
+                            onCheckedChange={field.onChange}
+                          />
+                        </FormControl>
+                        <div className="space-y-1 leading-none">
+                          <FormLabel>Afecto a ISC</FormLabel>
+                        </div>
+                      </FormItem>
+                    )}
+                  />
+
+                  {affectedByISC && (
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <FormField
                         control={form.control}
-                        name="perceptionPercentage"
+                        name="iscType"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Tipo ISC</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Seleccione" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {iscTypes.map((type) => (
+                                  <SelectItem key={type.value} value={type.value}>
+                                    {type.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="iscPercentage"
                         render={({ field }) => (
                           <FormItem>
                             <FormLabel>Porcentaje</FormLabel>
@@ -406,173 +376,263 @@ const ItemWarehouseForm = () => {
                           </FormItem>
                         )}
                       />
+
+                      <FormField
+                        control={form.control}
+                        name="iscUnitMeasure"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>UM ISC</FormLabel>
+                            <Select
+                              onValueChange={field.onChange}
+                              defaultValue={field.value}
+                            >
+                              <FormControl>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="Seleccione" />
+                                </SelectTrigger>
+                              </FormControl>
+                              <SelectContent>
+                                {unitMeasures.map((um) => (
+                                  <SelectItem key={um.value} value={um.value}>
+                                    {um.label}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
                     </div>
                   )}
-                </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                  <div>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name="affectedByICBPER"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>Afecto a ICBPER</FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name="affectedByPerception"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>Afecto a Percepción</FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {affectedByPerception && (
+                      <div>
+                        <FormField
+                          control={form.control}
+                          name="perceptionPercentage"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Porcentaje</FormLabel>
+                              <FormControl>
+                                <Input {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <FormField
+                        control={form.control}
+                        name="affectedByDetraction"
+                        render={({ field }) => (
+                          <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                            <FormControl>
+                              <Checkbox
+                                checked={field.value}
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <div className="space-y-1 leading-none">
+                              <FormLabel>Afecto a Detracción</FormLabel>
+                            </div>
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+
+                    {affectedByDetraction && (
+                      <>
+                        <FormField
+                          control={form.control}
+                          name="detractionCode"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-center gap-2">
+                              <FormControl>
+                                <Input {...field} className="w-24" placeholder="Código" />
+                              </FormControl>
+                              <Button 
+                                type="button" 
+                                variant="outline" 
+                                className="h-10 w-10 p-0"
+                                onClick={() => console.log("Buscar detracción")}
+                              >
+                                ...
+                              </Button>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={form.control}
+                          name="detractionPercentage"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Detracción (%)</FormLabel>
+                              <FormControl>
+                                <Input {...field} />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </>
+                    )}
+                  </div>
+                </TabsContent>
+
+                {/* Inventory Control Tab */}
+                <TabsContent value="inventory" className="space-y-4 pt-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <FormField
                       control={form.control}
-                      name="affectedByDetraction"
+                      name="reorderPoint"
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                        <FormItem>
+                          <FormLabel>Punto de Reorden</FormLabel>
                           <FormControl>
-                            <Checkbox
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
+                            <Input {...field} type="number" />
                           </FormControl>
-                          <div className="space-y-1 leading-none">
-                            <FormLabel>Afecto a Detracción</FormLabel>
-                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    <FormField
+                      control={form.control}
+                      name="safetyStock"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Stock Seguridad</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="number" />
+                          </FormControl>
+                          <FormMessage />
                         </FormItem>
                       )}
                     />
                   </div>
 
-                  {affectedByDetraction && (
-                    <>
-                      <FormField
-                        control={form.control}
-                        name="detractionCode"
-                        render={({ field }) => (
-                          <FormItem className="flex flex-row items-center gap-2">
-                            <FormControl>
-                              <Input {...field} className="w-24" placeholder="Código" />
-                            </FormControl>
-                            <Button 
-                              type="button" 
-                              variant="outline" 
-                              className="h-10 w-10 p-0"
-                              onClick={() => console.log("Buscar detracción")}
-                            >
-                              ...
-                            </Button>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="minimumStock"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Stock Mínimo</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="number" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
 
-                      <FormField
-                        control={form.control}
-                        name="detractionPercentage"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Detracción (%)</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </>
-                  )}
-                </div>
-              </TabsContent>
+                    <FormField
+                      control={form.control}
+                      name="maximumStock"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Stock Máximo</FormLabel>
+                          <FormControl>
+                            <Input {...field} type="number" />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </TabsContent>
 
-              {/* Inventory Control Tab */}
-              <TabsContent value="inventory" className="space-y-4 pt-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="reorderPoint"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Punto de Reorden</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="number" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                {/* Others Tab */}
+                <TabsContent value="others" className="space-y-4 pt-4">
+                  <div className="flex items-end gap-2">
+                    <FormField
+                      control={form.control}
+                      name="location"
+                      render={({ field }) => (
+                        <FormItem className="flex-1">
+                          <FormLabel>Código de Ubicación</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      className="h-10 w-10 p-0"
+                      onClick={() => console.log("Buscar ubicación")}
+                    >
+                      ...
+                    </Button>
+                  </div>
+                </TabsContent>
+              </Tabs>
 
-                  <FormField
-                    control={form.control}
-                    name="safetyStock"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Stock Seguridad</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="number" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <FormField
-                    control={form.control}
-                    name="minimumStock"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Stock Mínimo</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="number" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  <FormField
-                    control={form.control}
-                    name="maximumStock"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Stock Máximo</FormLabel>
-                        <FormControl>
-                          <Input {...field} type="number" />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </div>
-              </TabsContent>
-
-              {/* Others Tab */}
-              <TabsContent value="others" className="space-y-4 pt-4">
-                <div className="flex items-end gap-2">
-                  <FormField
-                    control={form.control}
-                    name="location"
-                    render={({ field }) => (
-                      <FormItem className="flex-1">
-                        <FormLabel>Código de Ubicación</FormLabel>
-                        <FormControl>
-                          <Input {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  <Button 
-                    type="button" 
-                    variant="outline" 
-                    className="h-10 w-10 p-0"
-                    onClick={() => console.log("Buscar ubicación")}
-                  >
-                    ...
-                  </Button>
-                </div>
-              </TabsContent>
-            </Tabs>
-
-            <div className="flex justify-end gap-2">
-              <Button variant="outline" type="button" onClick={() => form.reset()}>
-                Cancelar
-              </Button>
-              <Button type="submit">Aceptar</Button>
-            </div>
-          </form>
-        </Form>
-      </CardContent>
-    </Card>
+              <div className="flex justify-end gap-2">
+                <Button variant="outline" type="button" onClick={handleCancel}>
+                  Cancelar
+                </Button>
+                <Button type="submit">Guardar</Button>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

@@ -1,17 +1,19 @@
 
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
-import { Search, Plus, Edit, FileSearch, Trash2 } from "lucide-react";
+import { Search, Plus, Edit, FileSearch, Trash2, Warehouse } from "lucide-react";
 import { Article, mockArticles } from "@/types/article";
 import EditArticleForm from "@/components/EditArticleForm";
 
 const Articles = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [articles, setArticles] = useState<Article[]>(mockArticles);
   const [formMode, setFormMode] = useState<"new" | "edit" | "view" | null>(null);
@@ -70,6 +72,10 @@ const Articles = () => {
     setFormMode(null);
   };
 
+  const handleAssignWarehouse = (article: Article) => {
+    navigate(`/articles/${article.id}/assign-warehouse`);
+  };
+
   if (formMode !== null) {
     return (
       <EditArticleForm
@@ -84,9 +90,9 @@ const Articles = () => {
   return (
     <div className="container mx-auto py-6">
       <Card className="shadow-sm">
-        <CardHeader>
+        <CardHeader className="pb-3">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <CardTitle className="text-2xl">Gestión de Artículos</CardTitle>
+            <CardTitle className="text-2xl font-bold">Gestión de Artículos</CardTitle>
             <Button onClick={handleNewArticle}>
               <Plus className="mr-2 h-4 w-4" /> Nuevo Artículo
             </Button>
@@ -144,13 +150,16 @@ const Articles = () => {
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end items-center gap-2">
-                          <Button variant="ghost" size="icon" onClick={() => handleViewArticle(article)}>
+                          <Button variant="ghost" size="icon" onClick={() => handleViewArticle(article)} title="Ver detalles">
                             <FileSearch className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleEditArticle(article)}>
+                          <Button variant="ghost" size="icon" onClick={() => handleEditArticle(article)} title="Editar artículo">
                             <Edit className="h-4 w-4" />
                           </Button>
-                          <Button variant="ghost" size="icon" onClick={() => handleDeleteArticle(article.id)}>
+                          <Button variant="ghost" size="icon" onClick={() => handleAssignWarehouse(article)} title="Asignar a almacén">
+                            <Warehouse className="h-4 w-4" />
+                          </Button>
+                          <Button variant="ghost" size="icon" onClick={() => handleDeleteArticle(article.id)} title="Eliminar artículo">
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </div>

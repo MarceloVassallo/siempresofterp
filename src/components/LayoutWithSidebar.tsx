@@ -74,7 +74,7 @@ export const LayoutWithSidebar = ({ children }: LayoutWithSidebarProps) => {
           </SidebarContent>
           <SidebarFooter>
             <div className="p-3 text-sm text-muted-foreground">
-              <p>© 2025 Sistema de Almacén</p>
+              <p>© 2025 Siempresoft</p>
             </div>
           </SidebarFooter>
         </Sidebar>

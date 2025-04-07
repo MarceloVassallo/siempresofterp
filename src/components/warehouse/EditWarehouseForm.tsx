@@ -40,20 +40,20 @@ export function EditWarehouseForm({
   };
 
   return (
-    <div className="p-6 bg-white rounded-lg shadow">
+    <div className="p-3 bg-white rounded-lg text-sm">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
             <WarehouseBasicInfoForm form={form} readOnly={readOnly} />
             <WarehouseLocationForm form={form} readOnly={readOnly} />
           </div>
 
-          <div className="flex justify-end space-x-2 pt-4">
-            <Button variant="outline" type="button" onClick={onCancel}>
+          <div className="flex justify-end space-x-2 pt-3">
+            <Button variant="outline" type="button" onClick={onCancel} size="sm" className="h-8 text-xs">
               Cancelar
             </Button>
             {!readOnly && (
-              <Button type="submit">
+              <Button type="submit" size="sm" className="h-8 text-xs">
                 Aceptar
               </Button>
             )}

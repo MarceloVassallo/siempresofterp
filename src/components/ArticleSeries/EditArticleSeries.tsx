@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
@@ -79,34 +78,34 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
-        <DialogHeader>
-          <DialogTitle>{getDialogTitle()}</DialogTitle>
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto p-4 text-xs">
+        <DialogHeader className="pb-2">
+          <DialogTitle className="text-base">{getDialogTitle()}</DialogTitle>
         </DialogHeader>
 
         <Tabs defaultValue="datos" className="w-full">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="datos">Datos</TabsTrigger>
-            <TabsTrigger value="adicionales">Adicionales</TabsTrigger>
+          <TabsList className="grid w-full grid-cols-2 h-8">
+            <TabsTrigger value="datos" className="text-xs py-1">Datos</TabsTrigger>
+            <TabsTrigger value="adicionales" className="text-xs py-1">Adicionales</TabsTrigger>
           </TabsList>
           
-          <TabsContent value="datos" className="space-y-4">
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="id" className="text-right">
+          <TabsContent value="datos" className="space-y-3 mt-3">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="id" className="text-right text-xs">
                 ID Serie
               </Label>
               <Input
                 id="id"
                 name="id"
-                className="col-span-3 font-bold"
+                className="col-span-3 font-medium h-7 text-xs"
                 value={formData.id || ''}
                 onChange={handleChange}
                 readOnly={true}
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="warehouseId" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="warehouseId" className="text-right text-xs">
                 Almacén
               </Label>
               <Select
@@ -115,18 +114,18 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                 value={formData.warehouseId}
                 onValueChange={(value) => handleSelectChange("warehouseId", value)}
               >
-                <SelectTrigger className="col-span-3">
+                <SelectTrigger className="col-span-3 h-7 text-xs">
                   <SelectValue placeholder="Seleccionar almacén" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="W001">Almacén Principal</SelectItem>
-                  <SelectItem value="W002">Almacén Secundario</SelectItem>
+                  <SelectItem value="W001" className="text-xs">Almacén Principal</SelectItem>
+                  <SelectItem value="W002" className="text-xs">Almacén Secundario</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="articleId" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="articleId" className="text-right text-xs">
                 Artículo
               </Label>
               <div className="col-span-3 flex gap-2">
@@ -136,27 +135,28 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                   value={formData.articleCode || ''}
                   onChange={handleChange}
                   readOnly={isViewMode}
-                  className="flex-1"
+                  className="flex-1 h-7 text-xs"
                 />
                 <Button
                   variant="outline"
                   size="icon"
                   type="button"
                   disabled={isViewMode}
+                  className="h-7 text-xs"
                 >...</Button>
               </div>
             </div>
 
             {formData.articleName && (
-              <div className="grid grid-cols-4 items-center gap-3">
+              <div className="grid grid-cols-4 items-center gap-2">
                 <div className="col-start-2 col-span-3 text-sm">
                   {formData.articleName}
                 </div>
               </div>
             )}
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="status" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="status" className="text-right text-xs">
                 Estado
               </Label>
               <Select
@@ -165,74 +165,74 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                 value={formData.status}
                 onValueChange={(value) => handleSelectChange("status", value)}
               >
-                <SelectTrigger className="col-span-3">
+                <SelectTrigger className="col-span-3 h-7 text-xs">
                   <SelectValue placeholder="Seleccionar estado" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Activo">Activo</SelectItem>
-                  <SelectItem value="Inactivo">Inactivo</SelectItem>
+                  <SelectItem value="Activo" className="text-xs">Activo</SelectItem>
+                  <SelectItem value="Inactivo" className="text-xs">Inactivo</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="series1" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="series1" className="text-right text-xs">
                 Serie1
               </Label>
               <Input
                 id="series1"
                 name="series1"
-                className="col-span-3"
+                className="col-span-3 h-7 text-xs"
                 value={formData.series1 || ''}
                 onChange={handleChange}
                 readOnly={isViewMode}
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="series2" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="series2" className="text-right text-xs">
                 Serie2
               </Label>
               <Input
                 id="series2"
                 name="series2"
-                className="col-span-3"
+                className="col-span-3 h-7 text-xs"
                 value={formData.series2 || ''}
                 onChange={handleChange}
                 readOnly={isViewMode}
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="series3" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="series3" className="text-right text-xs">
                 Serie3
               </Label>
               <Input
                 id="series3"
                 name="series3"
-                className="col-span-3"
+                className="col-span-3 h-7 text-xs"
                 value={formData.series3 || ''}
                 onChange={handleChange}
                 readOnly={isViewMode}
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="year" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="year" className="text-right text-xs">
                 Año
               </Label>
               <Input
                 id="year"
                 name="year"
-                className="col-span-3"
+                className="col-span-3 h-7 text-xs"
                 value={formData.year || ''}
                 onChange={handleChange}
                 readOnly={isViewMode}
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="color" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="color" className="text-right text-xs">
                 Color
               </Label>
               <Select
@@ -241,69 +241,69 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                 value={formData.color}
                 onValueChange={(value) => handleSelectChange("color", value)}
               >
-                <SelectTrigger className="col-span-3">
+                <SelectTrigger className="col-span-3 h-7 text-xs">
                   <SelectValue placeholder="Seleccionar color" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="Blanco">Blanco</SelectItem>
-                  <SelectItem value="Negro">Negro</SelectItem>
-                  <SelectItem value="Rojo">Rojo</SelectItem>
-                  <SelectItem value="Azul">Azul</SelectItem>
-                  <SelectItem value="Plata">Plata</SelectItem>
+                  <SelectItem value="Blanco" className="text-xs">Blanco</SelectItem>
+                  <SelectItem value="Negro" className="text-xs">Negro</SelectItem>
+                  <SelectItem value="Rojo" className="text-xs">Rojo</SelectItem>
+                  <SelectItem value="Azul" className="text-xs">Azul</SelectItem>
+                  <SelectItem value="Plata" className="text-xs">Plata</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="policyNumber" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="policyNumber" className="text-right text-xs">
                 Nro. Póliza
               </Label>
               <Input
                 id="policyNumber"
                 name="policyNumber"
-                className="col-span-3"
+                className="col-span-3 h-7 text-xs"
                 value={formData.policyNumber || ''}
                 onChange={handleChange}
                 readOnly={isViewMode}
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="cua" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="cua" className="text-right text-xs">
                 C.U.A
               </Label>
               <Input
                 id="cua"
                 name="cua"
-                className="col-span-3"
+                className="col-span-3 h-7 text-xs"
                 value={formData.cua || ''}
                 onChange={handleChange}
                 readOnly={isViewMode}
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="lotNumber" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="lotNumber" className="text-right text-xs">
                 Nro. Lote
               </Label>
               <Input
                 id="lotNumber"
                 name="lotNumber"
-                className="col-span-3"
+                className="col-span-3 h-7 text-xs"
                 value={formData.lotNumber || ''}
                 onChange={handleChange}
                 readOnly={isViewMode}
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="expirationDate" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="expirationDate" className="text-right text-xs">
                 Fecha Vencimiento
               </Label>
               <Input
                 id="expirationDate"
                 name="expirationDate"
-                className="col-span-3"
+                className="col-span-3 h-7 text-xs"
                 type="date"
                 value={formData.expirationDate || ''}
                 onChange={handleChange}
@@ -311,14 +311,14 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="automaticQuantity" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="automaticQuantity" className="text-right text-xs">
                 Cantidad Automática
               </Label>
               <Input
                 id="automaticQuantity"
                 name="automaticQuantity"
-                className="col-span-3"
+                className="col-span-3 h-7 text-xs"
                 type="number"
                 value={formData.automaticQuantity || ''}
                 onChange={handleChange}
@@ -326,14 +326,14 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
               />
             </div>
 
-            <div className="grid grid-cols-4 items-center gap-3">
-              <Label htmlFor="piecesQuantity" className="text-right">
+            <div className="grid grid-cols-4 items-center gap-2">
+              <Label htmlFor="piecesQuantity" className="text-right text-xs">
                 Cantidad Piezas
               </Label>
               <Input
                 id="piecesQuantity"
                 name="piecesQuantity"
-                className="col-span-3"
+                className="col-span-3 h-7 text-xs"
                 type="number"
                 value={formData.piecesQuantity || ''}
                 onChange={handleChange}
@@ -342,11 +342,11 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
             </div>
           </TabsContent>
           
-          <TabsContent value="adicionales" className="space-y-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-4">
+          <TabsContent value="adicionales" className="space-y-3 mt-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-3">
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="plate" className="text-right">
+                  <Label htmlFor="plate" className="text-right text-xs">
                     Placa
                   </Label>
                   <Input
@@ -355,11 +355,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.plate || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="category" className="text-right">
+                  <Label htmlFor="category" className="text-right text-xs">
                     Categoría
                   </Label>
                   <Input
@@ -368,11 +369,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.category || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="vehicleType" className="text-right">
+                  <Label htmlFor="vehicleType" className="text-right text-xs">
                     Form. Rodante
                   </Label>
                   <Input
@@ -381,11 +383,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.vehicleType || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="version" className="text-right">
+                  <Label htmlFor="version" className="text-right text-xs">
                     Versión
                   </Label>
                   <Input
@@ -394,11 +397,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.version || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="axes" className="text-right">
+                  <Label htmlFor="axes" className="text-right text-xs">
                     Ejes
                   </Label>
                   <Input
@@ -407,11 +411,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.axes || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="seats" className="text-right">
+                  <Label htmlFor="seats" className="text-right text-xs">
                     Asientos
                   </Label>
                   <Input
@@ -420,11 +425,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.seats || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="passengers" className="text-right">
+                  <Label htmlFor="passengers" className="text-right text-xs">
                     Pasajeros
                   </Label>
                   <Input
@@ -433,11 +439,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.passengers || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="wheels" className="text-right">
+                  <Label htmlFor="wheels" className="text-right text-xs">
                     Ruedas
                   </Label>
                   <Input
@@ -446,11 +453,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.wheels || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="height" className="text-right">
+                  <Label htmlFor="height" className="text-right text-xs">
                     Altura
                   </Label>
                   <Input
@@ -459,11 +467,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.height || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="modelYear" className="text-right">
+                  <Label htmlFor="modelYear" className="text-right text-xs">
                     Año Modelo
                   </Label>
                   <Input
@@ -472,11 +481,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.modelYear || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="brand" className="text-right">
+                  <Label htmlFor="brand" className="text-right text-xs">
                     Marca
                   </Label>
                   <Input
@@ -485,11 +495,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.brand || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="traction" className="text-right">
+                  <Label htmlFor="traction" className="text-right text-xs">
                     Tracción
                   </Label>
                   <Input
@@ -498,11 +509,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.traction || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="doors" className="text-right">
+                  <Label htmlFor="doors" className="text-right text-xs">
                     Puerta
                   </Label>
                   <Input
@@ -511,11 +523,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.doors || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="fuelType" className="text-right">
+                  <Label htmlFor="fuelType" className="text-right text-xs">
                     Combustible
                   </Label>
                   <Input
@@ -524,13 +537,14 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.fuelType || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="bodywork" className="text-right">
+                  <Label htmlFor="bodywork" className="text-right text-xs">
                     Carrocería
                   </Label>
                   <Input
@@ -539,11 +553,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.bodywork || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="power" className="text-right">
+                  <Label htmlFor="power" className="text-right text-xs">
                     Potencia
                   </Label>
                   <Input
@@ -552,11 +567,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.power || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="cylinders" className="text-right">
+                  <Label htmlFor="cylinders" className="text-right text-xs">
                     Cilindros
                   </Label>
                   <Input
@@ -565,11 +581,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.cylinders || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="displacement" className="text-right">
+                  <Label htmlFor="displacement" className="text-right text-xs">
                     Cilindrada
                   </Label>
                   <Input
@@ -578,11 +595,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.displacement || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="grossWeight" className="text-right">
+                  <Label htmlFor="grossWeight" className="text-right text-xs">
                     Peso Bruto
                   </Label>
                   <Input
@@ -591,11 +609,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.grossWeight || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="netWeight" className="text-right">
+                  <Label htmlFor="netWeight" className="text-right text-xs">
                     Peso Neto
                   </Label>
                   <Input
@@ -604,11 +623,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.netWeight || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="loadCapacity" className="text-right">
+                  <Label htmlFor="loadCapacity" className="text-right text-xs">
                     Carga Útil
                   </Label>
                   <Input
@@ -617,11 +637,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.loadCapacity || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="length" className="text-right">
+                  <Label htmlFor="length" className="text-right text-xs">
                     Longitud
                   </Label>
                   <Input
@@ -630,11 +651,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.length || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="width" className="text-right">
+                  <Label htmlFor="width" className="text-right text-xs">
                     Ancho
                   </Label>
                   <Input
@@ -643,11 +665,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.width || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="transmission" className="text-right">
+                  <Label htmlFor="transmission" className="text-right text-xs">
                     Transmisión
                   </Label>
                   <Input
@@ -656,11 +679,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.transmission || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="tireType" className="text-right">
+                  <Label htmlFor="tireType" className="text-right text-xs">
                     Tipo Neumático
                   </Label>
                   <Input
@@ -669,11 +693,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.tireType || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="axesDistance" className="text-right">
+                  <Label htmlFor="axesDistance" className="text-right text-xs">
                     Dist Ejes
                   </Label>
                   <Input
@@ -682,11 +707,12 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.axesDistance || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
 
                 <div className="grid grid-cols-2 items-center gap-2">
-                  <Label htmlFor="model" className="text-right">
+                  <Label htmlFor="model" className="text-right text-xs">
                     Modelo
                   </Label>
                   <Input
@@ -695,6 +721,7 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
                     value={formData.model || ''}
                     onChange={handleChange}
                     readOnly={isViewMode}
+                    className="h-7 text-xs"
                   />
                 </div>
               </div>
@@ -702,11 +729,11 @@ const EditArticleSeries = ({ isOpen, onClose, articleSeries, mode }: EditArticle
           </TabsContent>
         </Tabs>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={onClose}>
+        <DialogFooter className="pt-2">
+          <Button variant="outline" onClick={onClose} size="sm" className="h-7 text-xs">
             {isViewMode ? "Cerrar" : "Cancelar"}
           </Button>
-          <Button onClick={handleSubmit}>
+          <Button onClick={handleSubmit} size="sm" className="h-7 text-xs">
             {isViewMode ? "Cerrar" : "Aceptar"}
           </Button>
         </DialogFooter>

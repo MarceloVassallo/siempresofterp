@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -157,13 +158,13 @@ const EditWarehouse = () => {
   if (mode !== "LIST") {
     return (
       <div>
-        <h1 className="text-2xl font-bold mb-8">
+        <h1 className="text-lg font-semibold mb-4">
           {mode === "NEW" ? "Nuevo Almacén" : 
            mode === "EDIT" ? "Modificar Almacén" : 
            "Ver Detalle de Almacén"}
         </h1>
-        <Card>
-          <CardContent className="pt-6">
+        <Card className="shadow-sm">
+          <CardContent className="pt-4">
             <EditWarehouseForm 
               initialWarehouse={currentWarehouse || defaultWarehouse}
               onSubmit={handleSubmit}
@@ -177,84 +178,88 @@ const EditWarehouse = () => {
   }
 
   return (
-    <div>
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-2xl font-bold">Gestión de Almacenes</h1>
+    <div className="text-sm">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-lg font-semibold">Gestión de Almacenes</h1>
       </div>
       
       {/* Updated toolbar */}
-      <div className="flex flex-wrap gap-2 mb-4">
+      <div className="flex flex-wrap gap-2 mb-3">
         <Button 
           variant="outline" 
+          size="sm"
           onClick={handleNew}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 h-8 text-xs px-2"
         >
-          <Plus size={16} />
+          <Plus size={14} />
           Nuevo
         </Button>
         <Button 
-          variant="outline" 
+          variant="outline"
+          size="sm" 
           onClick={() => {
             // For demo purposes, edit the first warehouse
             if (warehouses.length > 0) handleEdit(warehouses[0]);
           }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 h-8 text-xs px-2"
         >
-          <PencilLine size={16} />
+          <PencilLine size={14} />
           Modificar
         </Button>
         <Button 
-          variant="outline" 
+          variant="outline"
+          size="sm" 
           onClick={() => {
             // For demo purposes, delete the first warehouse
             if (warehouses.length > 0) handleDelete(warehouses[0].code);
           }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 h-8 text-xs px-2"
         >
-          <Trash2 size={16} />
+          <Trash2 size={14} />
           Eliminar
         </Button>
         <Button 
-          variant="outline" 
+          variant="outline"
+          size="sm" 
           onClick={() => {
             // For demo purposes, view the first warehouse
             if (warehouses.length > 0) handleView(warehouses[0]);
           }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-1 h-8 text-xs px-2"
         >
-          <Eye size={16} />
+          <Eye size={14} />
           Ver Detalle
         </Button>
       </div>
       
-      <Card>
+      <Card className="shadow-sm text-xs">
         <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">Código</TableHead>
-                <TableHead>Nombre</TableHead>
-                <TableHead>Dirección</TableHead>
-                <TableHead className="w-[150px]">Cód. Establecimiento</TableHead>
-                <TableHead className="text-right w-[150px]">Acciones</TableHead>
+              <TableRow className="h-8">
+                <TableHead className="w-[100px] text-xs font-medium">Código</TableHead>
+                <TableHead className="text-xs font-medium">Nombre</TableHead>
+                <TableHead className="text-xs font-medium">Dirección</TableHead>
+                <TableHead className="w-[150px] text-xs font-medium">Cód. Establecimiento</TableHead>
+                <TableHead className="text-right w-[120px] text-xs font-medium">Acciones</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {currentWarehouses.map((warehouse) => (
-                <TableRow key={warehouse.code}>
-                  <TableCell>{warehouse.code}</TableCell>
-                  <TableCell>{warehouse.name}</TableCell>
-                  <TableCell>{warehouse.otherAddress}</TableCell>
-                  <TableCell>{warehouse.establishmentCode}</TableCell>
-                  <TableCell className="text-right">
-                    <Button variant="ghost" size="icon" onClick={() => handleEdit(warehouse)}>
-                      <PencilLine className="h-4 w-4" />
+                <TableRow key={warehouse.code} className="h-8">
+                  <TableCell className="text-xs py-1">{warehouse.code}</TableCell>
+                  <TableCell className="text-xs py-1">{warehouse.name}</TableCell>
+                  <TableCell className="text-xs py-1">{warehouse.otherAddress}</TableCell>
+                  <TableCell className="text-xs py-1">{warehouse.establishmentCode}</TableCell>
+                  <TableCell className="text-right py-1">
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleEdit(warehouse)}>
+                      <PencilLine className="h-3 w-3" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleView(warehouse)}>
-                      <Eye className="h-4 w-4" />
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleView(warehouse)}>
+                      <Eye className="h-3 w-3" />
                     </Button>
-                    <Button variant="ghost" size="icon" onClick={() => handleDelete(warehouse.code)}>
-                      <Trash2 className="h-4 w-4" />
+                    <Button variant="ghost" size="icon" className="h-6 w-6" onClick={() => handleDelete(warehouse.code)}>
+                      <Trash2 className="h-3 w-3" />
                     </Button>
                   </TableCell>
                 </TableRow>
@@ -262,9 +267,9 @@ const EditWarehouse = () => {
             </TableBody>
           </Table>
           
-          <div className="flex items-center justify-between px-4 py-4 border-t">
+          <div className="flex items-center justify-between px-3 py-2 border-t text-xs">
             <div className="flex items-center gap-2">
-              <p className="text-sm font-medium">Filas por página</p>
+              <p className="text-xs font-medium">Filas por página</p>
               <Select
                 value={perPage}
                 onValueChange={(value) => {
@@ -272,24 +277,24 @@ const EditWarehouse = () => {
                   setCurrentPage(1);
                 }}
               >
-                <SelectTrigger className="h-8 w-[70px]">
+                <SelectTrigger className="h-7 w-[60px] text-xs">
                   <SelectValue placeholder={perPage} />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="5">5</SelectItem>
-                  <SelectItem value="10">10</SelectItem>
-                  <SelectItem value="20">20</SelectItem>
-                  <SelectItem value="50">50</SelectItem>
+                  <SelectItem value="5" className="text-xs">5</SelectItem>
+                  <SelectItem value="10" className="text-xs">10</SelectItem>
+                  <SelectItem value="20" className="text-xs">20</SelectItem>
+                  <SelectItem value="50" className="text-xs">50</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             
             <Pagination>
-              <PaginationContent>
+              <PaginationContent className="text-xs">
                 <PaginationItem>
                   <PaginationPrevious 
                     onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                    className={currentPage === 1 ? "pointer-events-none opacity-50" : ""}
+                    className={`text-xs h-7 ${currentPage === 1 ? "pointer-events-none opacity-50" : ""}`}
                   />
                 </PaginationItem>
                 
@@ -298,6 +303,7 @@ const EditWarehouse = () => {
                     <PaginationLink
                       isActive={page === currentPage}
                       onClick={() => setCurrentPage(page)}
+                      className="text-xs h-7 w-7"
                     >
                       {page}
                     </PaginationLink>
@@ -307,7 +313,7 @@ const EditWarehouse = () => {
                 <PaginationItem>
                   <PaginationNext 
                     onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
-                    className={currentPage === totalPages ? "pointer-events-none opacity-50" : ""}
+                    className={`text-xs h-7 ${currentPage === totalPages ? "pointer-events-none opacity-50" : ""}`}
                   />
                 </PaginationItem>
               </PaginationContent>

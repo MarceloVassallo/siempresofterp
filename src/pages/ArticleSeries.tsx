@@ -10,17 +10,24 @@ import {
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select } from "@/components/ui/select";
-import { mockArticleSeries } from "@/types/articleSeries";
-import { mockArticles } from "@/types/article";
+import { mockArticleSeries, ArticleSeries as ArticleSeriesType } from "@/types/articleSeries";
+import EditArticleSeries from "@/components/ArticleSeries/EditArticleSeries";
+import { Plus, PencilLine, Trash2, Eye, Search } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const ArticleSeries = () => {
+  const { toast } = useToast();
   const [filteredSeries, setFilteredSeries] = useState(mockArticleSeries);
   const [searchWarehouse, setSearchWarehouse] = useState("");
   const [searchArticle, setSearchArticle] = useState("");
   const [searchSeries1, setSearchSeries1] = useState("");
   const [searchSeries2, setSearchSeries2] = useState("");
   const [searchStatus, setSearchStatus] = useState("");
+  
+  // State for the edit dialog
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [currentSeries, setCurrentSeries] = useState<ArticleSeriesType | undefined>(undefined);
+  const [dialogMode, setDialogMode] = useState<"create" | "edit" | "view">("create");
 
   const handleSearch = () => {
     const results = mockArticleSeries.filter(series => {
@@ -44,6 +51,37 @@ const ArticleSeries = () => {
     });
     
     setFilteredSeries(results);
+  };
+
+  const handleNew = () => {
+    setCurrentSeries(undefined);
+    setDialogMode("create");
+    setIsDialogOpen(true);
+  };
+
+  const handleEdit = (series: ArticleSeriesType) => {
+    setCurrentSeries(series);
+    setDialogMode("edit");
+    setIsDialogOpen(true);
+  };
+
+  const handleDelete = (series: ArticleSeriesType) => {
+    toast({
+      title: "Serie eliminada",
+      description: `La serie ${series.series1} ha sido eliminada`,
+    });
+    // In a real app, you would delete the series from the database
+    setFilteredSeries((prev) => prev.filter((s) => s.id !== series.id));
+  };
+
+  const handleViewDetail = (series: ArticleSeriesType) => {
+    setCurrentSeries(series);
+    setDialogMode("view");
+    setIsDialogOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setIsDialogOpen(false);
   };
 
   return (
@@ -79,17 +117,6 @@ const ArticleSeries = () => {
               />
               <Button variant="outline" size="icon">...</Button>
             </div>
-            {searchArticle && mockArticles.find(a => 
-              a.code.toLowerCase().includes(searchArticle.toLowerCase()) || 
-              a.name?.toLowerCase().includes(searchArticle.toLowerCase())
-            ) && (
-              <p className="text-xs mt-1 text-muted-foreground">
-                {mockArticles.find(a => 
-                  a.code.toLowerCase().includes(searchArticle.toLowerCase()) || 
-                  a.name?.toLowerCase().includes(searchArticle.toLowerCase())
-                )?.name}
-              </p>
-            )}
           </div>
           
           <div>
@@ -126,17 +153,53 @@ const ArticleSeries = () => {
         </div>
         
         <div className="flex justify-end">
-          <Button onClick={handleSearch}>Buscar</Button>
+          <Button onClick={handleSearch} className="flex items-center gap-2">
+            <Search size={16} />
+            Buscar
+          </Button>
         </div>
       </div>
       
       {/* Toolbar */}
       <div className="flex flex-col sm:flex-row gap-2 mb-4">
         <div className="flex flex-col sm:flex-row gap-2">
-          <Button variant="outline">Nuevo</Button>
-          <Button variant="outline">Modificar</Button>
-          <Button variant="outline">Eliminar</Button>
-          <Button variant="outline">Ver Detalle</Button>
+          <Button variant="outline" onClick={handleNew} className="flex items-center gap-2">
+            <Plus size={16} />
+            Nuevo
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={() => {
+              const selected = filteredSeries[0]; // For demo purposes, edit the first item
+              if (selected) handleEdit(selected);
+            }}
+            className="flex items-center gap-2"
+          >
+            <PencilLine size={16} />
+            Modificar
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={() => {
+              const selected = filteredSeries[0]; // For demo purposes, delete the first item
+              if (selected) handleDelete(selected);
+            }}
+            className="flex items-center gap-2"
+          >
+            <Trash2 size={16} />
+            Eliminar
+          </Button>
+          <Button 
+            variant="outline" 
+            onClick={() => {
+              const selected = filteredSeries[0]; // For demo purposes, view the first item
+              if (selected) handleViewDetail(selected);
+            }}
+            className="flex items-center gap-2"
+          >
+            <Eye size={16} />
+            Ver Detalle
+          </Button>
         </div>
       </div>
       
@@ -151,12 +214,13 @@ const ArticleSeries = () => {
               <TableHead>Serie 1</TableHead>
               <TableHead>Serie 2</TableHead>
               <TableHead>Estado</TableHead>
+              <TableHead>Acciones</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {filteredSeries.length === 0 ? (
               <TableRow>
-                <TableCell colSpan={6} className="text-center py-4">
+                <TableCell colSpan={7} className="text-center py-4">
                   No se encontraron resultados
                 </TableCell>
               </TableRow>
@@ -169,12 +233,33 @@ const ArticleSeries = () => {
                   <TableCell>{series.series1}</TableCell>
                   <TableCell>{series.series2}</TableCell>
                   <TableCell>{series.status}</TableCell>
+                  <TableCell>
+                    <div className="flex gap-2">
+                      <Button variant="ghost" size="sm" onClick={() => handleEdit(series)}>
+                        <PencilLine size={16} />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => handleViewDetail(series)}>
+                        <Eye size={16} />
+                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => handleDelete(series)}>
+                        <Trash2 size={16} />
+                      </Button>
+                    </div>
+                  </TableCell>
                 </TableRow>
               ))
             )}
           </TableBody>
         </Table>
       </div>
+
+      {/* Edit Dialog */}
+      <EditArticleSeries 
+        isOpen={isDialogOpen}
+        onClose={handleCloseDialog}
+        articleSeries={currentSeries}
+        mode={dialogMode}
+      />
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,13 +9,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
-import { Archive, Edit, Eye, Trash, Plus, Search } from "lucide-react";
+import { PencilLine, Eye, Trash2, Plus, Search, Archive } from "lucide-react";
 import { Article } from "@/types/article";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -158,9 +156,50 @@ const Articles = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Gestión de Artículos</h1>
-        <Button onClick={handleNewArticle}>
-          <Plus className="mr-2 h-4 w-4" />
+      </div>
+      
+      {/* Updated toolbar */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        <Button 
+          variant="outline" 
+          onClick={handleNewArticle}
+          className="flex items-center gap-2"
+        >
+          <Plus size={16} />
           Nuevo
+        </Button>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            // For demo purposes, edit the first article
+            if (articles.length > 0) handleEditArticle(articles[0]);
+          }}
+          className="flex items-center gap-2"
+        >
+          <PencilLine size={16} />
+          Modificar
+        </Button>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            // Would delete an article in a real app
+            console.log("Delete article");
+          }}
+          className="flex items-center gap-2"
+        >
+          <Trash2 size={16} />
+          Eliminar
+        </Button>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            // For demo purposes, view the first article
+            if (articles.length > 0) handleViewArticle(articles[0]);
+          }}
+          className="flex items-center gap-2"
+        >
+          <Eye size={16} />
+          Ver Detalle
         </Button>
       </div>
       

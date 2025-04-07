@@ -10,8 +10,8 @@ import {
 } from "@/components/ui/table";
 import { EditWarehouseForm } from "@/components/warehouse/EditWarehouseForm";
 import { Warehouse, defaultWarehouse } from "@/types/warehouse";
-import { Package, Edit, Eye, Trash, ChevronLeft, ChevronRight } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Package, PencilLine, Eye, Trash2, Plus } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   Pagination,
   PaginationContent,
@@ -180,9 +180,50 @@ const EditWarehouse = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-bold">Gestión de Almacenes</h1>
-        <Button onClick={handleNew} className="mr-2">
-          <Package className="mr-2 h-4 w-4" />
+      </div>
+      
+      {/* Updated toolbar */}
+      <div className="flex flex-wrap gap-2 mb-4">
+        <Button 
+          variant="outline" 
+          onClick={handleNew}
+          className="flex items-center gap-2"
+        >
+          <Plus size={16} />
           Nuevo
+        </Button>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            // For demo purposes, edit the first warehouse
+            if (warehouses.length > 0) handleEdit(warehouses[0]);
+          }}
+          className="flex items-center gap-2"
+        >
+          <PencilLine size={16} />
+          Modificar
+        </Button>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            // For demo purposes, delete the first warehouse
+            if (warehouses.length > 0) handleDelete(warehouses[0].code);
+          }}
+          className="flex items-center gap-2"
+        >
+          <Trash2 size={16} />
+          Eliminar
+        </Button>
+        <Button 
+          variant="outline" 
+          onClick={() => {
+            // For demo purposes, view the first warehouse
+            if (warehouses.length > 0) handleView(warehouses[0]);
+          }}
+          className="flex items-center gap-2"
+        >
+          <Eye size={16} />
+          Ver Detalle
         </Button>
       </div>
       
@@ -207,13 +248,13 @@ const EditWarehouse = () => {
                   <TableCell>{warehouse.establishmentCode}</TableCell>
                   <TableCell className="text-right">
                     <Button variant="ghost" size="icon" onClick={() => handleEdit(warehouse)}>
-                      <Edit className="h-4 w-4" />
+                      <PencilLine className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="icon" onClick={() => handleView(warehouse)}>
                       <Eye className="h-4 w-4" />
                     </Button>
                     <Button variant="ghost" size="icon" onClick={() => handleDelete(warehouse.code)}>
-                      <Trash className="h-4 w-4" />
+                      <Trash2 className="h-4 w-4" />
                     </Button>
                   </TableCell>
                 </TableRow>

@@ -9,6 +9,7 @@ import Articles from "./pages/Articles";
 import EditWarehouse from "./pages/EditWarehouse";
 import { LayoutWithSidebar } from "./components/LayoutWithSidebar";
 import ArticleSeries from "./pages/ArticleSeries";
+import EditArticleSeriesPage from "./pages/EditArticleSeries";
 
 const App = () => (
     <TooltipProvider>
@@ -34,6 +35,11 @@ const App = () => (
           <Route path="/article-series" element={
             <LayoutWithSidebar>
               <ArticleSeries />
+            </LayoutWithSidebar>
+          } />
+          <Route path="/edit-article-series" element={
+            <LayoutWithSidebar>
+              <EditArticleSeriesPage />
             </LayoutWithSidebar>
           } />
           <Route path="*" element={<NotFound />} />

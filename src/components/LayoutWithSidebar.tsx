@@ -161,7 +161,7 @@ export const LayoutWithSidebar = ({ children }: LayoutWithSidebarProps) => {
           <SidebarMenuButton
             asChild
             isActive={location.pathname === item.path}
-            tooltip={{ children: item.title }}
+            tooltip={item.title ? { children: item.title } : undefined}
             size="sm"
           >
             <Link to={item.path || "#"}>
